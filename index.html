@@ -5,23 +5,38 @@
         <link rel="stylesheet" href="/style.css">
     </head>
     <body>
-        <h1>Practice Some Math!</h1>
+        <h1 hidden>Practice Some Math!</h1>
         
         <section id="page2">
-            <h1>Hello Young One</h1>
+            <h1 hidden>Hello Young One</h1>
             <img src="#" id="teacher2" alt="" />
             <div id="choices">
-                <button name="random" type="button" value="random">Randomize</button>
-                <input id="min" type="text" name="min" value="min" size="5" maxlength="10" />
-                <input id="max" type="text" name="max" value="max" size="5" maxlength="10" />
+                <button class="math" id="rand" name="random" type="button" value="random">Randomize</button>
+                <input id="min" type="text" name="min" placeholder="min" size="5" maxlength="10" />
+                <input id="max" type="text" name="max" placeholder="max" size="5" maxlength="10" />
             </div>
-            <section id="blackboard"></section>
+            <div class="bb">
+                <div>
+                    <button class="num" name="one" type="button" value="one"></button>
+                    <button class="num" name="two" type="button" value="two"></button>
+                    <button class="num" name="three" type="button" value="three"></button>
+                    <button class="num" name="four" type="button" value="four"></button>
+                    <button class="num" name="five" type="button" value="five"></button>
+                    <button class="num" name="six" type="button" value="six"></button>
+                    <button class="num" name="seven" type="button" value="seven"></button>
+                    <button class="num" name="eight" type="button" value="eight"></button>
+                    <button class="num" name="nine" type="button" value="nine"></button>
+                    <button class="num" name="ten" type="button" value="ten"></button>
+                </div>
+                <section id="blackboard"></section>
+            </div>
+            
         </section>
         <form id="operator">
-            <button name="add" type="button" value="+">+</button>
-            <button name="subtract" type="button" value="-">-</button>
-            <button name="multiply" type="button" value="x">x</button>
-            <button name="division" type="button" value="/">/</button>
+            <button class="math" name="add" type="button" value="+">+</button>
+            <button class="math" name="subtract" type="button" value="-">-</button>
+            <button class="math" name="multiply" type="button" value="x">x</button>
+            <button class="math" name="division" type="button" value="/">/</button>
         </form>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
