@@ -5,30 +5,46 @@
         <link rel="stylesheet" href="/style.css">
     </head>
     <body>
-        <h1 hidden>Practice Some Math!</h1>
+        <h1>Practice Some Math!</h1>
         
-        <section id="page2">
-            <h1 hidden>Hello Young One</h1>
-            <img src="#" id="teacher2" alt="" />
+        <section id="page1">
             <div id="choices">
                 <button class="math" id="rand" name="random" type="button" value="random">Randomize</button>
                 <input id="min" type="text" name="min" placeholder="min" size="5" maxlength="10" />
                 <input id="max" type="text" name="max" placeholder="max" size="5" maxlength="10" />
+
+                <input id="ownNum" type="text" name="ownNum" placeholder="Enter a number" size="13" maxlength="10" />
+                <button class="math" id="practice" name="practice" type="button" value="practice">Practice</button>
             </div>
             <div class="bb">
-                <div>
-                    <button class="num" name="one" type="button" value="one"></button>
-                    <button class="num" name="two" type="button" value="two"></button>
-                    <button class="num" name="three" type="button" value="three"></button>
-                    <button class="num" name="four" type="button" value="four"></button>
-                    <button class="num" name="five" type="button" value="five"></button>
-                    <button class="num" name="six" type="button" value="six"></button>
-                    <button class="num" name="seven" type="button" value="seven"></button>
-                    <button class="num" name="eight" type="button" value="eight"></button>
-                    <button class="num" name="nine" type="button" value="nine"></button>
-                    <button class="num" name="ten" type="button" value="ten"></button>
+                <div class="tens">
+                    <button class="num" name="one" type="button" value="1"></button>
+                    <button class="num" name="two" type="button" value="10"></button>
+                    <button class="num" name="three" type="button" value="20"></button>
+                    <button class="num" name="four" type="button" value="30"></button>
+                    <button class="num" name="five" type="button" value="40"></button>
+                    <button class="num" name="six" type="button" value="50"></button>
+                    <button class="num" name="seven" type="button" value="60"></button>
+                    <button class="num" name="eight" type="button" value="70"></button>
+                    <button class="num" name="nine" type="button" value="80"></button>
+                    <button class="num" name="ten" type="button" value="90"></button>
+                </div>
+                <div class="tens">
+                    <button class="num1" name="one" type="button" value="1"></button>
+                    <button class="num1" name="two" type="button" value="2"></button>
+                    <button class="num1" name="three" type="button" value="3"></button>
+                    <button class="num1" name="four" type="button" value="4"></button>
+                    <button class="num1" name="five" type="button" value="5"></button>
+                    <button class="num1" name="six" type="button" value="6"></button>
+                    <button class="num1" name="seven" type="button" value="7"></button>
+                    <button class="num1" name="eight" type="button" value="8"></button>
+                    <button class="num1" name="nine" type="button" value="9"></button>
                 </div>
                 <section id="blackboard"></section>
+                <div class="arrows">
+                    <button class="arrow" name="left" type="button" value="less"><<<p class="before"></p></button>
+                    <button class="arrow" name="right" type="button" value="more">>><p class="after"></p></button>
+                </div>
             </div>
             
         </section>
@@ -37,6 +53,9 @@
             <button class="math" name="subtract" type="button" value="-">-</button>
             <button class="math" name="multiply" type="button" value="x">x</button>
             <button class="math" name="division" type="button" value="/">/</button>
+        </form>
+        <form id="test">
+            <button class="test" name="test" type="button" value="test">TEST</button>
         </form>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>

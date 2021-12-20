@@ -1,7 +1,3 @@
-let table;
-let i = 1;
-let msg = '';
- 
 
 //<script src="/jquery-1.11.0.js"></script>
 /*
@@ -81,17 +77,57 @@ if (i == 11) {
 }
 }
 */
+
 $(function() {
+    var table = 71;
+    let i = 1;
+    let msg = '';
     let $newOperatorButton = $('.math:button');
     let $option = $('#choices');
     let $minText = $('input#min');
     let $maxText = $('input#max');
     let $ownNum = $('input#ownNum');
     let $arrowButton = $('.arrow:button');
-    console.log($minText);
-    console.log($maxText);
-    console.log($ownNum);
-    console.log($arrowButton);
+    let $practiceButton = $('#practice');
+    
+    //console.log($minText);
+    //console.log($maxText);
+    //console.log($ownNum);
+    //console.log($arrowButton);
+    $practiceButton.on('click', function() {
+        $($arrowButton).hide("slow");
+        $('.tens').hide("slow");
+        $('.test').hide("slow");
+
+    });
+    $arrowButton.on('click', function(e){
+        e.preventDefault();
+        let $leftRight;
+        $($leftRight).text('');
+        let arrowClick = $(this).attr("value"); 
+        
+        switch (arrowClick) {
+            case 'less':
+                table--;
+                console.log(table);
+                $leftRight = $('.before');
+                $('.after').empty().append(table);
+                break;
+            case 'more':
+                table++;
+                console.log(table);
+                $leftRight = $('.after');
+                $('.before').empty().append(table);
+                break;
+        }
+        $($leftRight).empty().html(table);
+        
+        
+            
+          }).mouseout(function() {
+            $(this).find('p').text('');;
+    });
+
     
     $option.on('input', function(e){
         e.preventDefault();
@@ -123,9 +159,9 @@ $(function() {
     });
 
     let $tens = $('.num:button');
-    console.log($tens);
+    //console.log($tens);
 
-    $tens.mouseover(function(){
+    $tens.on('click', function ten(){
         let randomColor = Math.floor(Math.random() * (0xffffff + 1)).toString(16).padStart(6, '0')
         
         let invert = invertColor(randomColor);
@@ -159,17 +195,43 @@ $(function() {
             'background-color': '#' + randomColor,
             'color':  invert
         });  
+        let tenClicked = $(this).val();
+        console.log('ten clicked ' + tenClicked);
+        table = tenClicked;
+        console.log('table in tens ' + table);
+
+        let ind = $('.num').index(this);
+        console.log('trying to get index ' + ind);
+
+        //table = Math.floor(Math.random() * (maxText - minText) + minText); //This value now becomes table to ensure table is between these two numbers
+
+        let ten = $(this).attr("value");
+
+        $(this).empty().html(ten);
+
+        let $ones = $('.num1:button');
+        $ones.each(function(index) {
+            let tren = $(this).attr("value");
+            let nums = this.value;
+            let t = ++table;
+            console.log('t ' + table );
+            let ap = $(this).empty().html(t);
+            if(ind === 0){
+                $('.num1:eq(8)').hide();
+            } else {
+                $('.num1:eq(8)').show();
+            }
+    
+        });
     });
 
-    $tens.each(function() {
-        let temp = 0;
+    let $ones = $('.num1:button');
+    $tens.each( function() {
+        let ten = $(this).attr("value");
         let nums = this.value;
-        console.log(nums);
-        //$(this).prepend(temp);
-         
-        $(this).append(nums);
+        $(this).empty().html(ten);
     });
-    //console.log($tens);
+
     $newOperatorButton.on('click',  function math(){
             let msgOperator = '';
             let expression;
@@ -178,34 +240,34 @@ $(function() {
             let operator = $(this).attr("value");
              console.log(operator);
              console.log(operatorArr[operatorRand]);
-             console.log('table in operator button ' + table);
             if(operator === 'random'){
                 operator = operatorArr[operatorRand];
                 table = Math.floor(Math.random() * 50 + 1);
             }
-            if(operator === '+'){
-                msgOperator = ' + ';
-                expression = (table + i);
+             console.log('table in operator button ' + table);
+             if(operator === '+'){
+                msgOperator = String.fromCodePoint(0x002B);
+                expression = (+table + +i);
                 while(i < 11){
-                    msg += table + msgOperator + i + ' = ' + (table + i) + '<br />';
+                    msg += table + msgOperator + i + ' = ' + (+table + +i) + '<br />';
                     i++; 
                 }
             } else if (operator === '-') {
-                msgOperator = ' - ';
+                msgOperator = String.fromCodePoint(0x2212);
                 expression = (table - i);
                 while(i < 11){
                     msg += table + msgOperator + i + ' = ' + (table - i) + '<br />';
                     i++; 
                 }
             } else if (operator === 'x') {
-                msgOperator = ' x ';
+                msgOperator = String.fromCodePoint(0x00D7);
                 expression = (table * i);
                 while(i < 11){
                     msg += table + msgOperator + i + ' = ' + (table * i) + '<br />';
                     i++; 
                 }
             } else if (operator === '/') {
-                msgOperator = ' / ';
+                msgOperator = String.fromCodePoint(0x00F7);
         
                 while(i < 11){
                     if(table > 9){
@@ -254,6 +316,7 @@ $(function() {
             
             //var el = document.getElementById('blackboard');
             //el.innerHTML = msg;
+           
         
         $("#blackboard").html(msg); //jquery equivalent of above expression
      
