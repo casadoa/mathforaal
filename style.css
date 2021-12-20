@@ -16,7 +16,6 @@ h1 {
 	overflow: hidden;*/
 	height: 75px;
 	width: 643px;
-	border: 1px solid red;
 	margin: 20px auto;
 	text-align: center;
 }
@@ -48,7 +47,6 @@ h1 {
 }
 
 #choices {
-	border: 1px solid red;
 	text-align: center;	
 	display: flex;
 	justify-content: center;
@@ -57,7 +55,6 @@ h1 {
 }
 
 #operator {
-	border: 1px solid green;
 	text-align: center;
 	font-size: 5px;
 	height: 50px;
@@ -92,6 +89,7 @@ h1 {
 	width: 150px;
 	font-size: 20px;
 	height: 56px;
+	border-radius: 50%;
 }
 #min, #max {
 	font-size: 20px;
@@ -100,6 +98,7 @@ h1 {
 #rand {
 	font-size: 15px;
 	height: 56px;
+	border-radius: 50%;
 }
 
 .num, .num1 {
@@ -110,41 +109,42 @@ h1 {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	border: 1px solid rgb(219, 32, 172);
 	font-weight: bolder;
+	border-radius: 99%;
 }
+
 
 .bb {
 	display: flex;
 	flex-direction: row;
-	border: 1px solid brown;
 }
 
 .arrows {
-	border: 1px solid red;
 	display: flex;
 	flex-direction: column;
+	width: 50px;
 }
 .arrow {
 	font-size: large;
 	height: 50%;
 	font-weight: bold;
+
+	
 }
 button[name='left']:hover{
 	background-color: rgb(133, 53, 53);
-	color: #1a993e
+	color: #1a993e;
+	border-radius: 20px 0px 0px 20px;
 }
 button[name='right']:hover{
 	background-color: rgb(28, 145, 12);
 	color: #751254;
+	border-radius: 0 20px 20px 0px;
 }
 #test {
 	height: 55px;
 	display: flex;
 	justify-content: center;
-
-
-	border: 1px solid pink;
 }
 
 .test {
