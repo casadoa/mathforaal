@@ -28,21 +28,22 @@ h1 {
 	border: 1px solid rgb(76, 192, 40);
 }
 
-#page1, #page2 {
-	height: 715px;
+#page2 {
+	border: 1px solid red;
 }
 
 
 #blackboard {
 	background-color: #425a5a;
 	border: 25px solid #523620;
-	border-radius: 20px;
-	padding: 40px 20px;
-	margin: 0px auto;
-	height: 370px;
 	width: 600px;
+	height: 400px;
+	border-radius: 20px;
+	padding: 20px 20px;
+	margin: 0px auto;
 	text-align: center;
-	line-height: 1.6;
+	
+	line-height: 1.5;
 	letter-spacing: 0.125em;
 }
 
@@ -90,6 +91,7 @@ h1 {
 	font-size: 20px;
 	height: 56px;
 	border-radius: 50%;
+	margin-left: 10px;
 }
 #min, #max {
 	font-size: 20px;
@@ -162,6 +164,10 @@ button[name='right']:hover{
 	color: black;
 	box-shadow: 0px 0px;
   }
+
+#answer {
+	height: 30px;
+}
 
 /*
 input[type=submit] {
