@@ -163,12 +163,58 @@ button[name='right']:hover{
 	margin-top: 5px;
 	color: black;
 	box-shadow: 0px 0px;
-  }
-
-#answer {
-	height: 30px;
 }
 
+#blackboard2 {
+	background-color: #425a5a;
+	border: 25px solid #523620;
+	width: 600px;
+	height: 400px;
+	border-radius: 20px;
+	margin: 0px auto;
+	padding: 20px 20px;
+	line-height: 1.5;
+	letter-spacing: 0.125em;
+	display: flex;
+}
+#question {
+	display: flex;
+	flex-direction: column;
+	width: 350px;
+	align-items: flex-end;
+	line-height: 1.7;
+}
+.answer {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-end;
+}
+.answer:focus {
+	background-color: green;
+}
+input:focus, 
+textarea:focus { 
+	border-color: #719ECE;
+	box-shadow: 0 0 10px #719ECE;
+	background-color: rgb(97, 95, 95);
+	color: white
+}
+.answerInput {
+	width: 50px;
+	height: 50px;
+	text-align: center;
+	margin: 1px;
+}
+.done {
+	color: rgb(168, 177, 50);
+	font-size: 100px;
+	width: 600px;
+}
+.saying {
+	font-size: 75px;
+	
+}
 /*
 input[type=submit] {
   width: 200px;

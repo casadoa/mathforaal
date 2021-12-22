@@ -94,6 +94,10 @@ function math2(operator, table){
         msg = "";
     }
 }
+let correct = [];
+let wrong = [];
+let p = 0;
+ let r = 0;
 
 
 $(function() {
@@ -109,33 +113,6 @@ $(function() {
     let $practiceButton = $('#practice');           //practice button
     $('.num1:button').hide();                       //hide ones buttons since we don't know which tens will be clicked
     $('#page2').hide();
-    $practiceButton.on('click', function() {        //once practice is clicked a bunch of hides so we can just get an empty blackboard view
-       /* $($arrowButton).hide("slow");
-        $('.tens').hide("slow");
-        $('.test').hide("slow");
-        $('.num1:button').hide("slow");
-        $($ownNum).hide("slow");
-        
-        let correctAnswerArray = [];
-        let correctAnswers = 0;
-        if (i == 1) {
-            $("#blackboard").empty(); 
-        }
-        while(i < 11){
-            //msg = math2('+', table).append('<input id="answer" type="text" name="answer" placeholder="44" size="3" maxlength="5" />');
-            msg +=table + ' + ' + i + ' = ' + '<input id="answer" type="text" name="answer" placeholder="" size="3" maxlength="5" />' + '<br />';
-            i++; 
-        }
-        let answer = $('#answer').val();
-        console.log(answer);
-        $("#blackboard").html(msg);
-*/
-        $('#page1').toggle();
-        $('#operator').toggle();
-        $('#test').toggle();
-        $('#page2').toggle();
-        
-    });
 
     $('#return').on('click', function(){
         $('#page1').toggle();
@@ -143,6 +120,7 @@ $(function() {
         $('#test').toggle();
         $('#page2').toggle();
     });
+
     $arrowButton.on('click', function(e){
         e.preventDefault();
         let $leftRight;
@@ -169,7 +147,6 @@ $(function() {
     }).mouseout(function() {
             $(this).find('p').text('');;
     });
-
     
     $option.on('input', function(e){
         e.preventDefault();
@@ -189,7 +166,7 @@ $(function() {
             table = Math.floor(Math.random() * (maxText - minText) + minText); //This value now becomes table to ensure table is between these two numbers
         }
         
-        console.log('own num ' + ownText);
+        console.log('own num in option ' + ownText);
         console.log('min ' + minText);
         console.log('max ' + maxText);
         //table = ownText;
@@ -283,6 +260,7 @@ $(function() {
         let ten = $(this).attr("value");
         $(this).empty().html(ten);
     });
+
     $newOperatorButton.on('click',  function(){
         $('.tens').show("slow");
         $($ownNum).show("slow");
@@ -369,6 +347,135 @@ $(function() {
             msg = "";
         }
     });
+
+
+    let answerArr = [];
+    let practicemsg = '';
+    let correctCounter = 0;
+function m(){
+    
+}
+    $($practiceButton).on('click', function(){                //once practice is clicked a bunch of hides so we can just get an empty blackboard view
+        $('#page1').toggle();
+        $('#operator').toggle();
+        $('#test').toggle();
+        $('#page2').toggle();
+        if(correctCounter > 0){
+            correctCounter = 0;
+        }
+
+        let operatorArr = ['+', '-', 'x', '/'];
+
+        let expression1 = function(left, right){return +left + +right};
+        let expression2 = function(left, right){return +left - +right};
+        let expression3 = function(left, right){return +left * +right};
+        let expression4 = function(left, right){return +left / +right};
+        let mg = '';
+
+        for(let i = 0; i < 10; i++){
+            answerArr.pop();
+        }
+        while(i < 11){
+           let left = Math.floor(Math.random() *10 + 1);
+           let right = Math.floor(Math.random() *10 + 1);
+           let operatorRand = Math.floor(Math.random() * 4);
+            
+           switch(operatorArr[operatorRand]){
+               case '+':
+                   answerArr.push(expression1(left, right));
+                   break;
+               case '-':
+                   while(Math.sign(left - right) === -1 || (left - right) === 0){
+                    left = Math.floor(Math.random() *10 + 1);
+                    right = Math.floor(Math.random() *10 + 1);
+                   }
+                   answerArr.push(expression2(left, right));
+                   break;
+               case 'x':
+                   answerArr.push(expression3(left, right));
+                   break;
+               case '/':
+                   while((left % right) != 0){
+                       left = Math.floor(Math.random() *10 + 1);
+                       right = Math.floor(Math.random() *10 + 1);
+                   }
+                   answerArr.push(expression4(left, right));
+                   break;
+           }
+          practicemsg += left + operatorArr[operatorRand] + right + ' = ' + '<br />';
+          i++;          
+        }
+        
+        console.log(answerArr);
+        let $answer = $('input.answerInput');  
+        //let $a1 = $('input#1');                  
+        let $a2 = $('input#2');                  
+        let $a3 = $('input#3');
+        let $a4 = $('input#4');                  
+        let $a5 = $('input#5');                  
+        let $a6 = $('input#6'); 
+        let $a7 = $('input#7');                  
+        let $a8 = $('input#8');                  
+        let $a9 = $('input#9'); 
+        let $a10 = $('input#10'); 
+        let aArr = [];
+        $('#answer').on('input', function(e){
+           e.preventDefault();
+           let an1 = $('input#1').val();
+           let an2 = $a2.val();
+           let an3 = $a3.val();
+           let an4 = $a4.val();
+           let an5 = $a5.val();
+           let an6 = $a6.val();
+           let an7 = $a7.val();
+           let an8 = $a8.val();
+           let an9 = $a9.val();
+           let an10 = $a10.val();
+           aArr = [an1, an2, an3, an4, an5, an6, an7, an8, an9, an10];
+        });
+
+        $('#check').on('click', function compare2(){
+            if(correctCounter > 0){
+                correctCounter = 0;
+            }
+            console.log('correct in check ' + correctCounter);
+            for(let index = 0; index < 10; index++){
+                if(aArr[index] == answerArr[index]){
+                    correct.push(aArr);
+                    correctCounter++;      
+                }
+                else{
+                    wrong.push(answerArr);
+                }
+            }
+            console.log('answer correct ' + (correctCounter/10)*100 + '%');
+            $('#answer').toggle();
+            $('#question').html(""); 
+            let letter = '';
+         
+            if((correctCounter/10)*100 == 100){
+                letter = 'A+'
+            } else if((correctCounter/10)*100 > 89){
+                letter = 'A-';
+            } else if((correctCounter/10)*100 > 84){
+                letter = 'B+';
+            } else if((correctCounter/10)*100 > 79){
+                letter = 'B-';
+            } else if((correctCounter/10)*100 > 74){
+                letter = 'C+';
+            } else if((correctCounter/10)*100 > 69){
+                letter = 'C-'
+            } else {
+                letter = 'Keep Trying';
+            }
+            $('#question').html('<h1 class="done">' + (correctCounter/10)*100 + '%' + '<br />' + '<h2 class="saying">' + letter + '</h2>' +  '</h1>');
+        });
+     $("#question").html(practicemsg); 
+        if (i == 11) {
+            i = 1;
+            practicemsg = "";
+        }
+     });
 });
 //var el = document.getElementById('blackboard');
             //el.innerHTML = msg;
