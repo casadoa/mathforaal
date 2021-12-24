@@ -1,86 +1,106 @@
 
+
+
+$(function() {
+    let table = 1;                                  //left side number
+    let tableRight = 1;                             //right side number
+    let i = 1, j = 0;
+    let msg = '';
+    let $newOperatorButton = $('.math:button');     //rand, +, -, *, / buttons
+    let $option = $('#choices');                    //rand, min, max, ownNum, practice button
+    let $minText = $('input#min');                  //min input 
+    let $maxText = $('input#max');                  //max input
+    let $ownNum = $('input#ownNum');                //own number input
+    let $arrowButton = $('.arrow:button');          //left and right arrow
+    let $practiceButton = $('#practice');           //practice button
+    let $ones = $('.num1:button');                  //single button
+    let $tens = $('.num:button');                   //tens button left side
+    let $tensRight = $('.rOperand');                //right side tens button to switch right side operand
+    $('.num1:button').hide();                       //hide ones buttons since we don't know which tens will be clicked
+    $('#page2').hide();
+    let $rOperand = $('.num2:button');
+
+    let correct = [];
+    let wrong = [];
+
+    
 function math2(operator, table){
-    let i = 1;
     let msg = '';
     let msgOperator = '';
     let expression;
     let operatorArr = ['+', '-', 'x', '/'];
     let operatorRand = Math.floor(Math.random() * 4);
-    //operator = $(this).attr("value");
-    //operator = operatorArr[operatorRand];
     if(operator === null){
         operator = 'random';
     }
     if(table === null){
         table = 1;
     }
-    console.log('table ' + table);
     if(operator === 'random'){
         operator = operatorArr[operatorRand];
     }
     if(operator === '+'){
         msgOperator = String.fromCodePoint(0x002B);
-        console.log('inside + in math2')
-        expression = (+table + +i);
-        while(i < 11){
-            msg += table + msgOperator + i + ' = ' + (+table + +i) + '<br />';
-            i++; 
+        expression = (+table + +j);
+        for(i; i < 11; i++){
+            msg += table + msgOperator + j + ' = ' + (+table + +j) + '<br />';
+            j++; 
         }
     } else if (operator === '-') {
         msgOperator = String.fromCodePoint(0x2212);
-        expression = (table - i);
-        while(i < 11){
-            msg += table + msgOperator + i + ' = ' + (table - i) + '<br />';
-            i++; 
+        expression = (table - j);
+        for(i; i < 11; i++){
+            msg += table + msgOperator + j + ' = ' + (table - j) + '<br />';
+            j++; 
         }
     } else if (operator === 'x') {
         msgOperator = String.fromCodePoint(0x00D7);
-        expression = (table * i);
-        while(i < 11){
-            msg += table + msgOperator + i + ' = ' + (table * i) + '<br />';
-            i++; 
+        expression = (table * j);
+        for(i; i < 11; i++){
+            msg += table + msgOperator + j + ' = ' + (table * j) + '<br />';
+            j++; 
         }
     } else if (operator === '/') {
         msgOperator = String.fromCodePoint(0x00F7);
 
-        while(i < 11){
+        for(i; i < 11; i++){
             if(table > 9){
-                if(i < table){
-                    let remainder = table % i;
+                if(j < table){
+                    let remainder = table % j;
                     if(remainder === 0){
-                        msg += table + msgOperator + i + ' = ' + (table / i).toPrecision(2) + '<br />';
+                        msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(2) + '<br />';
                         
                     } else {
-                        msg += table + msgOperator + i + ' = ' + Math.floor((table / i).toPrecision(2)) + ' remainder ' + remainder + '<br />';
+                        msg += table + msgOperator + j + ' = ' + Math.floor((table / j).toPrecision(2)) + ' remainder ' + remainder + '<br />';
                    }
-                    i++;
+                    j++;
                 } else {
-                    let remainder = i / table;
+                    let remainder = j / table;
                     if(remainder === 0){
-                        msg += table + msgOperator + i + ' = ' + (table / i).toPrecision(1) + '<br />';
+                        msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(1) + '<br />';
                     } else {
-                        msg += table + msgOperator + i + ' = ' + (table / i).toPrecision(2) + '<br />';
+                        msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(2) + '<br />';
                    }
-                    i++; 
+                    j++; 
                 }
             } else {
-                if(i < table){
-                let remainder = table % i;
+                if(j < table){
+                let remainder = table % j;
                 if(remainder === 0){
-                    msg += table + msgOperator + i + ' = ' + (table / i).toPrecision(1) + '<br />';
+                    msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(1) + '<br />';
                     
                 } else {
-                    msg += table + msgOperator + i + ' = ' + Math.floor((table / i).toPrecision(2)) + ' remainder ' + remainder + '<br />';
+                    msg += table + msgOperator + j + ' = ' + Math.floor((table / j).toPrecision(2)) + ' remainder ' + remainder + '<br />';
                }
-                i++;
+                j++;
             } else {
-                let remainder = i / table;
+                let remainder = j / table;
                 if(remainder === 0){
-                    msg += table + msgOperator + i + ' = ' + (table / i).toPrecision(1) + '<br />';
+                    msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(1) + '<br />';
                 } else {
-                    msg += table + msgOperator + i + ' = ' + (table / i).toPrecision(2) + '<br />';
+                    msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(2) + '<br />';
                }
-                i++; 
+                j++; 
             }
             }
         }
@@ -91,60 +111,40 @@ function math2(operator, table){
         msg = "";
     }
 }
-let correct = [];
-let wrong = [];
-let p = 0;
- let r = 0;
-
-
-$(function() {
-    var table = 1;
-    let i = 1;
-    let msg = '';
-    let $newOperatorButton = $('.math:button');     //rand, +, -, *, / buttons
-    let $option = $('#choices');                    //rand, min, max, ownNum, practice button
-    let $minText = $('input#min');                  //min input 
-    let $maxText = $('input#max');                  //max input
-    let $ownNum = $('input#ownNum');                //own number input
-    let $arrowButton = $('.arrow:button');          //left and right arrow
-    let $practiceButton = $('#practice');           //practice button
-    $('.num1:button').hide();                       //hide ones buttons since we don't know which tens will be clicked
-    $('#page2').hide();
-
     $('#return').on('click', function(){
         $('#page1').toggle();
         $('#operator').toggle();
         $('#test').toggle();
         $('#page2').toggle();
     });
-
+    /*
     $arrowButton.on('click', function(e){
         e.preventDefault();
         let $leftRight;
         $($leftRight).text('');
         let arrowClick = $(this).attr("value"); 
-        
+        console.log(j + ' j');
         switch (arrowClick) {
             case 'less':
                 table--;
                 console.log(table);
                 $leftRight = $('.before');
                 $('.after').empty().append(table);
-                math2('+', table);
+                math2('+', table, j);
                 break;
             case 'more':
                 table++;
                 console.log(table);
                 $leftRight = $('.after');
                 $('.before').empty().append(table);
-                math2('+', table);
+                math2('+', table, j);
                 break;
         }
         $($leftRight).empty().html(table);
     }).mouseout(function() {
             $(this).find('p').text('');;
     });
-    
+    */
     $option.on('input', function(e){
         e.preventDefault();
         let temp = 0;               //temp  value just in case min > max bounds
@@ -178,42 +178,40 @@ $(function() {
             $($ownNum).show("slow");
             $($arrowButton).show("slow");
             $($ownNum).show("slow");
-        
+        j = 0;
         math2('random', table);
     });
-
-    let $tens = $('.num:button');
-    $tens.on('click', function ten(){
-        $('.num1').show();
-        let randomColor = Math.floor(Math.random() * (0xffffff + 1)).toString(16).padStart(6, '0')
-        
-        let invert = invertColor(randomColor);
-
-        function invertColor(hex) {
-            if (hex.indexOf('#') === 0) {
-                hex = hex.slice(1);
-            }
-            // convert 3-digit hex to 6-digits.
-            if (hex.length === 3) {
-                hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
-            }
-            if (hex.length !== 6) {
-                
-                throw new Error('Invalid HEX color.');
-                
-            }
-            // invert color components
-            var r = (255 - parseInt(hex.slice(0, 2), 16)).toString(16),
-                g = (255 - parseInt(hex.slice(2, 4), 16)).toString(16),
-                b = (255 - parseInt(hex.slice(4, 6), 16)).toString(16);
-            // pad each with zeros and return
-            return '#' + padZero(r) + padZero(g) + padZero(b);
+    function invertColor(hex) {
+        if (hex.indexOf('#') === 0) {
+            hex = hex.slice(1);
         }
-        function padZero(str, len) {
+        // convert 3-digit hex to 6-digits.
+        if (hex.length === 3) {
+            hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+        }
+        if (hex.length !== 6) {
+            
+            throw new Error('Invalid HEX color.');
+            
+        }
+        // invert color components
+        var r = (255 - parseInt(hex.slice(0, 2), 16)).toString(16),
+            g = (255 - parseInt(hex.slice(2, 4), 16)).toString(16),
+            b = (255 - parseInt(hex.slice(4, 6), 16)).toString(16);
+        // pad each with zeros and return
+        return '#' + padZero(r) + padZero(g) + padZero(b);
+    }
+    function padZero(str, len) {
             len = len || 2;
             var zeros = new Array(len).join('0');
             return (zeros + str).slice(-len);
-        }
+    }
+    $tens.on('click', function ten(){
+        $('.num1').show();
+        
+        let randomColor = Math.floor(Math.random() * (0xffffff + 1)).toString(16).padStart(6, '0')
+        
+        let invert = invertColor(randomColor);
         $(this).css({
             'background-color': '#' + randomColor,
             'color':  invert
@@ -228,8 +226,7 @@ $(function() {
         $(this).empty().html(ten);              //making the value the html for the tens button
 
         let ind = $('.num').index(this);        //finding index so i can see if 1 or the 10,20,30... is clicked
-        //console.log('trying to get index ' + ind);
-        let $ones = $('.num1:button');
+        
         $ones.on('click', function(){
             let oneClicked = $(this).text();
             $(this).css({
@@ -253,11 +250,30 @@ $(function() {
                 });
             }
         });
-    }).each( function() {
+       
+    }).each(function() {
         let ten = $(this).attr("value");
         $(this).empty().html(ten);
     });
+    $rOperand.on('click', function(){
 
+        let randomColor = Math.floor(Math.random() * (0xffffff + 1)).toString(16).padStart(6, '0')
+        
+        let rightClicked = $(this).text();
+        j = rightClicked;
+        console.log(j + ' j rop');
+        math2('+', table);
+
+        let invert = invertColor(randomColor);
+
+        $(this).css({
+            'background-color': '#' + randomColor,
+            'color':  invert
+        }); 
+    }).each(function() {
+    let rop = $(this).attr("value");
+    $(this).html(rop);
+    });
     $newOperatorButton.on('click',  function(){
         $('.tens').show("slow");
         $($ownNum).show("slow");
@@ -269,74 +285,83 @@ $(function() {
         let operatorArr = ['+', '-', 'x', '/'];
         let operatorRand = Math.floor(Math.random() * 4);
         let operator = $(this).attr("value");
-        console.log(operator + ' in newoperatorButton ' + table + ' table');
+        j-=10;
         if(operator === 'random'){
             operator = operatorArr[operatorRand];
-            table = Math.floor(Math.random() * 50 + 1);
         }
         if(operator === '+'){
-        //math2('+', table);
             msgOperator = String.fromCodePoint(0x002B);
-            expression = (+table + +i);
-            while(i < 11){
-                msg += table + msgOperator + i + ' = ' + (+table + +i) + '<br />';
-                i++; 
+            expression = (+table + +j);
+            for(i; i < 11; i++){
+                msg += table + msgOperator + j + ' = ' + (+table + +j) + '<br />';
+                j++; 
             }
         } else if (operator === '-') {
             msgOperator = String.fromCodePoint(0x2212);
-            expression = (table - i);
-            while(i < 11){
-                msg += table + msgOperator + i + ' = ' + (table - i) + '<br />';
-                i++; 
+            expression = (table - j);
+            if(j > table){
+                for(i; i < 11; i++){
+                    msg += j + msgOperator + table + ' = ' + (j - table) + '<br />';
+                    j++; 
+                }
+            } else {
+                for(i; i < 11; i++){
+                    msg += table + msgOperator + j + ' = ' + (table - j) + '<br />';
+                    j++; 
+                }
             }
+            
         } else if (operator === 'x') {
             msgOperator = String.fromCodePoint(0x00D7);
-            expression = (table * i);
-            while(i < 11){
-                msg += table + msgOperator + i + ' = ' + (table * i) + '<br />';
-                i++; 
+            expression = (table * j);
+            for(i; i < 11; i++){
+                msg += table + msgOperator + j + ' = ' + (table * j) + '<br />';
+                j++; 
             }
         } else if (operator === '/') {
-            msgOperator = String.fromCodePoint(0x00F7);       
-            while(i < 11){
+            msgOperator = String.fromCodePoint(0x00F7);
+   
+            for(i; i < 11; i++){
                 if(table > 9){
-                    if(i < table){
-                        let remainder = table % i;
+                    if(j < table){
+                        let remainder = table % j;
                         if(remainder === 0){
-                            msg += table + msgOperator + i + ' = ' + (table / i).toPrecision(2) + '<br />';       
+                            msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(2) + '<br />';
+                            
                         } else {
-                            msg += table + msgOperator + i + ' = ' + Math.floor((table / i).toPrecision(2)) + ' remainder ' + remainder + '<br />';
-                        }
-                        i++;
+                            msg += table + msgOperator + j + ' = ' + Math.floor((table / j).toPrecision(2)) + ' remainder ' + remainder + '<br />';
+                       }
+                        j++;
                     } else {
-                        let remainder = i / table;
+                        let remainder = j / table;
                         if(remainder === 0){
-                            msg += table + msgOperator + i + ' = ' + (table / i).toPrecision(1) + '<br />';
+                            msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(1) + '<br />';
                         } else {
-                            msg += table + msgOperator + i + ' = ' + (table / i).toPrecision(2) + '<br />';
-                        }
-                        i++; 
-                        }
+                            msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(2) + '<br />';
+                       }
+                        j++; 
+                    }
                 } else {
-                    if(i < table){
-                    let remainder = table % i;
+                    if(j < table){
+                    let remainder = table % j;
                     if(remainder === 0){
-                        msg += table + msgOperator + i + ' = ' + (table / i).toPrecision(1) + '<br />';                
+                        msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(1) + '<br />';
+                        
                     } else {
-                        msg += table + msgOperator + i + ' = ' + Math.floor((table / i).toPrecision(2)) + ' remainder ' + remainder + '<br />';
-                    }
-                    i++;
+                        msg += table + msgOperator + j + ' = ' + Math.floor((table / j).toPrecision(2)) + ' remainder ' + remainder + '<br />';
+                   }
+                    j++;
+                } else {
+                    let remainder = j / table;
+                    if(remainder === 0){
+                        msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(1) + '<br />';
                     } else {
-                        let remainder = i / table;
-                        if(remainder === 0){
-                            msg += table + msgOperator + i + ' = ' + (table / i).toPrecision(1) + '<br />';
-                        } else {
-                            msg += table + msgOperator + i + ' = ' + (table / i).toPrecision(2) + '<br />';
-                        }
-                        i++;
-                    }
-                }   
-            }   
+                        msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(2) + '<br />';
+                   }
+                    j++; 
+                }
+                }
+            }
         }
         $("#blackboard").html(msg); 
         if (i == 11) {
@@ -456,6 +481,7 @@ $(function() {
         for (let i = 0; i < 10; i++) {
             practicemsg += initPractice();
         }
+        console.log(answerArr);
         $("#question").html(practicemsg);
     });
     $('#answer').on('input', function(e){
@@ -477,7 +503,12 @@ $(function() {
         if(correctCounter > 0){
             correctCounter = 0;
         }
-            
+        if(correct.length > 0 || wrong.length > 0){
+            for(let i = 0; i < 10; i++){
+                correct.pop();
+                wrong.pop();
+            }
+        }    
         console.log('answers ' + aArr);
         for(let index = 0; index < 10; index++){
             if(aArr[index] == answerArr[index]){
