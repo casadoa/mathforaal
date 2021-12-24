@@ -5,6 +5,7 @@ $(function() {
     let table = 1;                                  //left side number
     let tableRight = 1;                             //right side number
     let i = 1, j = 0;
+    let m = [0];
     let msg = '';
     let $newOperatorButton = $('.math:button');     //rand, +, -, *, / buttons
     let $option = $('#choices');                    //rand, min, max, ownNum, practice button
@@ -30,6 +31,8 @@ function math2(operator, table){
     let expression;
     let operatorArr = ['+', '-', 'x', '/'];
     let operatorRand = Math.floor(Math.random() * 4);
+    j = m[0];
+    console.log(m[0] + ' m[0] ' + j + ' j');
     if(operator === null){
         operator = 'random';
     }
@@ -73,7 +76,6 @@ function math2(operator, table){
                     } else {
                         msg += table + msgOperator + j + ' = ' + Math.floor((table / j).toPrecision(2)) + ' remainder ' + remainder + '<br />';
                    }
-                    j++;
                 } else {
                     let remainder = j / table;
                     if(remainder === 0){
@@ -81,7 +83,6 @@ function math2(operator, table){
                     } else {
                         msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(2) + '<br />';
                    }
-                    j++; 
                 }
             } else {
                 if(j < table){
@@ -92,7 +93,6 @@ function math2(operator, table){
                 } else {
                     msg += table + msgOperator + j + ' = ' + Math.floor((table / j).toPrecision(2)) + ' remainder ' + remainder + '<br />';
                }
-                j++;
             } else {
                 let remainder = j / table;
                 if(remainder === 0){
@@ -100,9 +100,9 @@ function math2(operator, table){
                 } else {
                     msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(2) + '<br />';
                }
-                j++; 
             }
             }
+            j++
         }
     }
     $("#blackboard").html(msg); 
@@ -110,6 +110,7 @@ function math2(operator, table){
         i = 1;
         msg = "";
     }
+    m.pop();
 }
     $('#return').on('click', function(){
         $('#page1').toggle();
@@ -261,7 +262,10 @@ function math2(operator, table){
         
         let rightClicked = $(this).text();
         j = rightClicked;
-        console.log(j + ' j rop');
+        if(m.length > 1){
+            m.pop();
+        }
+        m.push(j);
         math2('+', table);
 
         let invert = invertColor(randomColor);
