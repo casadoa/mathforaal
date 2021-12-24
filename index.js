@@ -1,8 +1,5 @@
 
-//<script src="/jquery-1.11.0.js"></script>
-
 function math2(operator, table){
-    console.log(operator.toString() + ' random')
     let i = 1;
     let msg = '';
     let msgOperator = '';
@@ -352,130 +349,166 @@ $(function() {
     let answerArr = [];
     let practicemsg = '';
     let correctCounter = 0;
-function m(){
-    
-}
-    $($practiceButton).on('click', function(){                //once practice is clicked a bunch of hides so we can just get an empty blackboard view
+    let $answer = $('input.answerInput');  
+    let $a1 = $('input#1');                  
+    let $a2 = $('input#2');                  
+    let $a3 = $('input#3');
+    let $a4 = $('input#4');                  
+    let $a5 = $('input#5');                  
+    let $a6 = $('input#6'); 
+    let $a7 = $('input#7');                  
+    let $a8 = $('input#8');                  
+    let $a9 = $('input#9'); 
+    let $a10 = $('input#10'); 
+    let aArr = [];
+    let operatorArr = ['+', '-', 'x', '/'];
+    let math = {
+        add: function(left, right) {
+            let result = NaN;
+            if (!isNaN(left) && !isNaN(right)) {
+            result = left + right;
+        }
+        return result;
+    },
+        subtract: function(left, right) {
+            let result = NaN;
+            if (!isNaN(left) && !isNaN(right)) {
+                result = left - right;
+            }
+            return result;
+    },
+        multiply: function(left, right) {
+            let result = NaN;
+            if (!isNaN(left) && !isNaN(right)) {
+                result = left * right;
+            }
+            return result;
+    },
+        divide: function(left, right) {
+            let result = NaN;
+            if (!isNaN(left) && !isNaN(right)) {
+                result = left / right;
+            }
+            return result;
+        }
+    }
+    function initPractice() {
+        let left = Math.floor(Math.random() * 10 + 1);
+        let right = Math.floor(Math.random() * 10 + 1);
+        let operatorRand = Math.floor(Math.random() * 4);
+        switch (operatorArr[operatorRand]) {
+            case '+':
+                answerArr.push(math.add(left, right));
+                break;
+            case '-':
+                while (Math.sign(left - right) === -1 || (left - right) === 0) {
+                left = Math.floor(Math.random() * 10 + 1);
+                right = Math.floor(Math.random() * 10 + 1);
+                }
+                answerArr.push(math.subtract(left, right));
+                break;
+            case 'x':
+                answerArr.push(math.multiply(left, right));
+                break;
+            case '/':
+                while ((left % right) != 0) {
+                left = Math.floor(Math.random() * 10 + 1);
+                right = Math.floor(Math.random() * 10 + 1);
+                }
+                answerArr.push(math.divide(left, right));
+                break;
+        }
+        let expressionReturned = "<div class='equation'>" + left  + operatorArr[operatorRand] +  right + ' = </div>';
+        console.log(`${left} ${operatorArr[operatorRand]} ${right}`)
+        return expressionReturned;
+    }
+    $($practiceButton).on('click', function() {
         $('#page1').toggle();
         $('#operator').toggle();
         $('#test').toggle();
         $('#page2').toggle();
-        if(correctCounter > 0){
-            correctCounter = 0;
+        if (practicemsg.length > 0) {
+            practicemsg = "";
         }
-
-        let operatorArr = ['+', '-', 'x', '/'];
-
-        let expression1 = function(left, right){return +left + +right};
-        let expression2 = function(left, right){return +left - +right};
-        let expression3 = function(left, right){return +left * +right};
-        let expression4 = function(left, right){return +left / +right};
-        let mg = '';
-
-        for(let i = 0; i < 10; i++){
-            answerArr.pop();
+        for (let i = 0; i < 10; i++) {
+            practicemsg += initPractice();
         }
-        while(i < 11){
-           let left = Math.floor(Math.random() *10 + 1);
-           let right = Math.floor(Math.random() *10 + 1);
-           let operatorRand = Math.floor(Math.random() * 4);
-            
-           switch(operatorArr[operatorRand]){
-               case '+':
-                   answerArr.push(expression1(left, right));
-                   break;
-               case '-':
-                   while(Math.sign(left - right) === -1 || (left - right) === 0){
-                    left = Math.floor(Math.random() *10 + 1);
-                    right = Math.floor(Math.random() *10 + 1);
-                   }
-                   answerArr.push(expression2(left, right));
-                   break;
-               case 'x':
-                   answerArr.push(expression3(left, right));
-                   break;
-               case '/':
-                   while((left % right) != 0){
-                       left = Math.floor(Math.random() *10 + 1);
-                       right = Math.floor(Math.random() *10 + 1);
-                   }
-                   answerArr.push(expression4(left, right));
-                   break;
-           }
-          practicemsg += left + operatorArr[operatorRand] + right + ' = ' + '<br />';
-          i++;          
-        }
-        
+        $("#question").html(practicemsg);
         console.log(answerArr);
-        let $answer = $('input.answerInput');  
-        //let $a1 = $('input#1');                  
-        let $a2 = $('input#2');                  
-        let $a3 = $('input#3');
-        let $a4 = $('input#4');                  
-        let $a5 = $('input#5');                  
-        let $a6 = $('input#6'); 
-        let $a7 = $('input#7');                  
-        let $a8 = $('input#8');                  
-        let $a9 = $('input#9'); 
-        let $a10 = $('input#10'); 
-        let aArr = [];
-        $('#answer').on('input', function(e){
-           e.preventDefault();
-           let an1 = $('input#1').val();
-           let an2 = $a2.val();
-           let an3 = $a3.val();
-           let an4 = $a4.val();
-           let an5 = $a5.val();
-           let an6 = $a6.val();
-           let an7 = $a7.val();
-           let an8 = $a8.val();
-           let an9 = $a9.val();
-           let an10 = $a10.val();
-           aArr = [an1, an2, an3, an4, an5, an6, an7, an8, an9, an10];
-        });
-
-        $('#check').on('click', function compare2(){
-            if(correctCounter > 0){
-                correctCounter = 0;
-            }
-            console.log('correct in check ' + correctCounter);
-            for(let index = 0; index < 10; index++){
-                if(aArr[index] == answerArr[index]){
-                    correct.push(aArr);
-                    correctCounter++;      
-                }
-                else{
-                    wrong.push(answerArr);
-                }
-            }
-            console.log('answer correct ' + (correctCounter/10)*100 + '%');
-            $('#answer').toggle();
-            $('#question').html(""); 
-            let letter = '';
-         
-            if((correctCounter/10)*100 == 100){
-                letter = 'A+'
-            } else if((correctCounter/10)*100 > 89){
-                letter = 'A-';
-            } else if((correctCounter/10)*100 > 84){
-                letter = 'B+';
-            } else if((correctCounter/10)*100 > 79){
-                letter = 'B-';
-            } else if((correctCounter/10)*100 > 74){
-                letter = 'C+';
-            } else if((correctCounter/10)*100 > 69){
-                letter = 'C-'
-            } else {
-                letter = 'Keep Trying';
-            }
-            $('#question').html('<h1 class="done">' + (correctCounter/10)*100 + '%' + '<br />' + '<h2 class="saying">' + letter + '</h2>' +  '</h1>');
-        });
-     $("#question").html(practicemsg); 
         if (i == 11) {
             i = 1;
             practicemsg = "";
         }
-     });
+    });
+  
+    $('.again').on('click', function() {
+        if($('#answer').is(":hidden")){
+            $('#answer').toggle();
+        }
+        if(answerArr.length > 0){
+            for(let i = 0; i < 10; i++){
+            answerArr.pop();
+            }
+        }
+        if (practicemsg.length > 0) {
+            practicemsg = "";
+        }
+        for (let i = 0; i < 10; i++) {
+            practicemsg += initPractice();
+        }
+        $("#question").html(practicemsg);
+    });
+    $('#answer').on('input', function(e){
+        e.preventDefault();
+    
+        let an1 = $('input#1').val();
+        let an2 = $a2.val();
+        let an3 = $a3.val();
+        let an4 = $a4.val();
+        let an5 = $a5.val();
+        let an6 = $a6.val();
+        let an7 = $a7.val();
+        let an8 = $a8.val();
+        let an9 = $a9.val();
+        let an10 = $a10.val();
+        aArr = [an1, an2, an3, an4, an5, an6, an7, an8, an9, an10];
+    });
+    $('#check').on('click', function compare2(){
+        if(correctCounter > 0){
+            correctCounter = 0;
+        }
+            
+        console.log('answers ' + aArr);
+        for(let index = 0; index < 10; index++){
+            if(aArr[index] == answerArr[index]){
+                correct.push(aArr[index]);
+                correctCounter++;      
+            } else{
+                wrong.push(answerArr[index]);
+            }
+        }
+        console.log('correct in check ' + correctCounter);
+        console.log('answer correct ' + (correctCounter/10)*100 + '%');
+        console.log('correct arr ' + correct);
+        console.log('wrong arr ' + wrong);
+        $('#answer').toggle();
+        $('#question').html(""); 
+        let letter = '';
+        if((correctCounter/10)*100 == 100){
+            letter = 'A+'
+        } else if((correctCounter/10)*100 > 89){
+            letter = 'A-';
+        } else if((correctCounter/10)*100 > 84){
+            letter = 'B+';
+        } else if((correctCounter/10)*100 > 79){
+            letter = 'B-';
+        } else if((correctCounter/10)*100 > 74){
+            letter = 'C+';
+        } else if((correctCounter/10)*100 > 69){
+            letter = 'C-'
+        } else {
+            letter = 'Keep Trying';
+        }
+        $('#question').html('<h1 class="done">' + (correctCounter/10)*100 + '%' + '<br />' + '<h2 class="saying">' + letter + '</h2>' +  '</h1>');
+    });
 });
-//var el = document.getElementById('blackboard');
-            //el.innerHTML = msg;
