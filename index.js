@@ -1,11 +1,8 @@
-
-
-
 $(function() {
     let table = 1;                                  //left side number
     let tableRight = 1;                             //right side number
     let i = 1, j = 0;
-    let m = [0];
+    let m = [];
     let msg = '';
     let $newOperatorButton = $('.math:button');     //rand, +, -, *, / buttons
     let $option = $('#choices');                    //rand, min, max, ownNum, practice button
@@ -19,20 +16,32 @@ $(function() {
     let $tensRight = $('.rOperand');                //right side tens button to switch right side operand
     $('.num1:button').hide();                       //hide ones buttons since we don't know which tens will be clicked
     $('#page2').hide();
+    $($ones).hide();
     let $rOperand = $('.num2:button');
 
     let correct = [];
     let wrong = [];
-
-    
-function math2(operator, table){
+    let leftTable = [];
+    let rightTable = [];
+    let operatorChosen = [];
+    let temp;
+    let l, r;                                       //left and right side number
+function math3(operator, left, right){
     let msg = '';
     let msgOperator = '';
     let expression;
     let operatorArr = ['+', '-', 'x', '/'];
     let operatorRand = Math.floor(Math.random() * 4);
-    j = m[0];
-    console.log(m[0] + ' m[0] ' + j + ' j');
+    if(!m[0]){
+        j = 0;
+    }
+    j = right;
+    left = l;
+    temper = j;
+    operatorChosen.push(operator);
+    console.log('operator chosen  ' + operatorChosen);
+
+
     if(operator === null){
         operator = 'random';
     }
@@ -45,28 +54,37 @@ function math2(operator, table){
     if(operator === '+'){
         msgOperator = String.fromCodePoint(0x002B);
         expression = (+table + +j);
-        for(i; i < 11; i++){
-            msg += table + msgOperator + j + ' = ' + (+table + +j) + '<br />';
-            j++; 
+
+        console.log(left + ' + ' + right + ' = ' + (+left+ +right));
+        while(i < 11){
+            msg += left + msgOperator + right + ' = ' + (+left + +right) + '<br />';
+            right++; 
+            i++
         }
     } else if (operator === '-') {
         msgOperator = String.fromCodePoint(0x2212);
         expression = (table - j);
-        for(i; i < 11; i++){
-            msg += table + msgOperator + j + ' = ' + (table - j) + '<br />';
-            j++; 
+        console.log(left + ' - ' + right + ' = ' + (left-right));
+        while(i < 11){
+            msg += left + msgOperator + right + ' = ' + (left - right) + '<br />';
+            right++; 
+            i++;
         }
     } else if (operator === 'x') {
         msgOperator = String.fromCodePoint(0x00D7);
         expression = (table * j);
-        for(i; i < 11; i++){
-            msg += table + msgOperator + j + ' = ' + (table * j) + '<br />';
-            j++; 
+
+        console.log(left + ' + ' + right + ' = ' + (left*right));
+        while(i < 11){
+            msg += left + msgOperator + right + ' = ' + (left * right) + '<br />';
+            right++; 
+            i++
         }
     } else if (operator === '/') {
         msgOperator = String.fromCodePoint(0x00F7);
 
-        for(i; i < 11; i++){
+        console.log(left + ' ' + right + ' ' + (left/right));
+        while(i < 11){
             if(table > 9){
                 if(j < table){
                     let remainder = table % j;
@@ -103,6 +121,7 @@ function math2(operator, table){
             }
             }
             j++
+            i++;
         }
     }
     $("#blackboard").html(msg); 
@@ -110,7 +129,7 @@ function math2(operator, table){
         i = 1;
         msg = "";
     }
-    m.pop();
+    operatorChosen.pop();
 }
     $('#return').on('click', function(){
         $('#page1').toggle();
@@ -207,9 +226,10 @@ function math2(operator, table){
             var zeros = new Array(len).join('0');
             return (zeros + str).slice(-len);
     }
+   
     $tens.on('click', function ten(){
-        $('.num1').show();
-        
+        $($ones).show();
+       
         let randomColor = Math.floor(Math.random() * (0xffffff + 1)).toString(16).padStart(6, '0')
         
         let invert = invertColor(randomColor);
@@ -219,13 +239,26 @@ function math2(operator, table){
         });  
         let tenClicked = $(this).val();
         table = tenClicked;
-        math2('+', tenClicked);
-
-        //table = Math.floor(Math.random() * (maxText - minText) + minText); //This value now becomes table to ensure table is between these two numbers
-
+        
+        l = tenClicked;
+        if(leftTable.length > 0){
+            leftTable.pop();
+        }
+leftTable.push(l);
+        if(!r){
+    r = 0;
+}
         let ten = $(this).attr("value");        //get the 10's button
         $(this).empty().html(ten);              //making the value the html for the tens button
+        let tenIndex = $('.num').index(this);  
+leftTable.push(l);
+l = leftTable[0];
 
+r = rightTable[0];
+        //math3('/', l, r);
+        if(leftTable.length > 0){
+            leftTable.pop();
+        }
         let ind = $('.num').index(this);        //finding index so i can see if 1 or the 10,20,30... is clicked
         
         $ones.on('click', function(){
@@ -235,14 +268,21 @@ function math2(operator, table){
                 'color':  invert
             });  
             table = oneClicked;
-            math2('+', table);
-        }).each(function(index) {
+            r = rightTable[0];
+            l = oneClicked;
+            if(leftTable.length > 0){
+                leftTable.pop();
+            }
+leftTable.push(l);
+            l = leftTable[0];
+            //math3('/', l, r);
+        }).each(function() {
             let t = ++table;
-            let num = $(this).empty().html(t);
+            $(this).empty().text(t);
             if(ind === 0){
                 $('.num1:eq(8)').hide();
                 $('.ones').css({
-                    'padding-top': '49px'
+                    'padding-top': '60px'
                 });
             } else {
                 $('.num1:eq(8)').show();
@@ -251,22 +291,46 @@ function math2(operator, table){
                 });
             }
         });
-       
+        
     }).each(function() {
         let ten = $(this).attr("value");
         $(this).empty().html(ten);
     });
+
     $rOperand.on('click', function(){
 
         let randomColor = Math.floor(Math.random() * (0xffffff + 1)).toString(16).padStart(6, '0')
         
         let rightClicked = $(this).text();
         j = rightClicked;
-        if(m.length > 1){
+        r = rightClicked;
+console.log('lllll' + l);
+        if(!l)
+{
+    l = 1;
+}   
+        console.log('ll' + l);
+        if(leftTable.length == 0){
+            leftTable.push(1);
+            //l = 1;
+        }
+        while(m.length > 0){
             m.pop();
         }
         m.push(j);
-        math2('+', table);
+        let te = leftTable[0];
+        if(rightTable.length > 0){
+            rightTable.pop();
+        }
+rightTable.push(r);
+        r = rightTable[0];
+        l = leftTable[0]
+       console.log('left table in right operand ' + leftTable[0]);
+       console.log('m array   ' + m);
+        console.log(te);
+        console.log('left ' + l + ' right ' + r);
+        let o = operatorChosen[0];
+        //math3('+', l, r);
 
         let invert = invertColor(randomColor);
 
@@ -274,10 +338,86 @@ function math2(operator, table){
             'background-color': '#' + randomColor,
             'color':  invert
         }); 
-    }).each(function() {
-    let rop = $(this).attr("value");
-    $(this).html(rop);
     });
+
+    let mat = {
+        add: function (left, right) {
+            let result = NaN;
+            if(!isNaN(left) && !isNaN(right)){
+                result = +left + +right;
+            }
+            return result;
+          },
+        subtract: function (left, right) {
+            let result = NaN;
+            if(!isNaN(left) && !isNaN(right)){
+                result = left - right;
+            }
+            return result;
+          },
+        multiply: function (left, right) {
+            let result = NaN;
+            if(!isNaN(left) && !isNaN(right)){
+                result = left * right;
+            }
+            return result;
+          },
+        divide: function (left, right) {
+            let result = NaN;
+            let remainder = NaN;
+            //if(right > left)
+            console.log('left ' + left + ' right '  + right);
+            if(!isNaN(left) && !isNaN(right)){
+                if((left / right) < 10){
+                    if(left % right === 0){
+                        result = (left / right).toPrecision(1);
+                    } else {
+                        result = (left / right).toPrecision(1) + ' remainder ' + (left % right);
+                    }
+                } else {
+                    if(left % right === 0){
+                    result = (left / right).toPrecision(2);
+                } else {
+                    result = (left / right).toPrecision(2) + ' remainder ' + (left % right);
+                }
+            }
+        }
+            return result;
+        }
+    }
+    function message(operator, left, right) {
+        left = l;
+        right = r;
+        operator = operatorChosen[0];
+        console.log('operator chosen   ' + operatorChosen);
+        let mes;
+        switch(operator){
+            case '+':
+                mes =  left + operator + right + ' = ' + mat.add(left,right);
+                //console.log(`${left}${operator}${right}=${mat.add(left,right)}`);
+                break;
+            case '-':
+                mes =  left + operator + right + ' = ' + mat.subtract(left,right);
+                //console.log(`${left}${operator}${right}=${mat.subtract(left,right)}`);
+                break; 
+            case 'x':
+                mes =  left + operator + right + ' = ' + mat.multiply(left,right);
+                //console.log(`${left}${operator}${right}=${mat.multiply(left,right)}`);
+                break; 
+            case '/':
+                if(left < right){
+                    mes =  right + String.fromCodePoint(0x00F7) + left + ' = ' + mat.divide(right,left);
+                } else {
+                    mes =  left + String.fromCodePoint(0x00F7) + right + ' = ' + mat.divide(left,right);
+                }
+                
+
+                console.log(`${left}${operator}${right}=${mat.divide(left,right)}`);
+        }
+        //operatorChosen.pop();
+        return mes;
+      }
+
     $newOperatorButton.on('click',  function(){
         $('.tens').show("slow");
         $($ownNum).show("slow");
@@ -286,10 +426,119 @@ function math2(operator, table){
         
         let msgOperator = '';
         let expression;
-        let operatorArr = ['+', '-', 'x', '/'];
-        let operatorRand = Math.floor(Math.random() * 4);
+        //let operatorArr = ['+', '-', 'x', '/'];
+        //let operatorRand = Math.floor(Math.random() * 4);
+
+        let operatorArr = ['+', '-', 'x'];
+        let operatorRand = Math.floor(Math.random() * 3);
         let operator = $(this).attr("value");
-        j-=10;
+        let temp = j;
+        //r = j;
+        //l = leftTable[0];
+        //r = rightTable[0];
+        //operatorChosen.push(operator);
+        if(!l && !r){
+            l = Math.floor(Math.random() * 101);
+            r = Math.floor(Math.random() * 101);
+        } else if(!l){
+            l = Math.floor(Math.random() * 101);
+        } else if(!r){
+            r = Math.floor(Math.random() * 101);
+        }
+        if(!operator){
+            operator = operatorArr[operatorRand];
+        }
+   // console.log('left ' + l + '  operator  ' + operatorChosen[0] + ' right ' + r);
+        
+       /* if(operator === 'random'){
+            operatorChosen.push(operatorArr[operatorRand]);
+            while(i < 11){
+                l = Math.floor(Math.random() * 101);
+                r = Math.floor(Math.random() * 101);
+                operator = operatorArr[operatorRand];
+    console.log('left ' + l + '  operator  ' + operatorChosen[0] + ' right ' + r);
+    console.log(operatorArr[operatorRand])
+                msg += message(operator, l, r) + '<br />';
+                i++;
+                r++
+            }
+            operatorChosen.pop();
+        }*/
+        
+       switch(operator){
+           case 'random':
+               while(i < 11){
+                l = Math.floor(Math.random() * 101);
+                r = Math.floor(Math.random() * 101);
+                operatorRand = Math.floor(Math.random() * 3);
+                operator = operatorArr[operatorRand];
+                operatorChosen.push(operator);
+                msg += message(operator, l, r) + '<br />';
+                i++;
+                r++
+                operatorChosen.pop();
+            }
+           case '+':
+               operatorChosen.push('+');
+                while(i < 11){
+                    msg += message('+', l, r) + '<br />';
+                    i++;
+                    r++
+                }
+                console.log(operatorChosen);
+                break;
+            case '-':
+                operatorChosen.push('-')
+                if(l < r){
+                    let min = l;
+                    l = r;
+                    r = min;
+                    while(i < 11){
+                        msg += message('-', l, r) + '<br />';
+                        i++;
+                        l++;
+                    }
+                } else {
+                    while(i < 11){
+                        msg += message('-', l, r) + '<br />';
+                        i++;
+                        r++
+                    }
+                }
+                operatorChosen.pop();
+                break;
+            case 'x':
+                operatorChosen.push('x')
+                while(i < 11){
+                    msg += message('x', l, r) + '<br />';
+                    i++;
+                    r++
+                }
+                operatorChosen.pop();
+                break;
+            case '/':
+                operatorChosen.push('/')
+                if(l < r){
+                    //let min = l;
+                    //l = r;
+                    //r = min;
+                    while(i < 11){
+                        msg += message('/', l, r) + '<br />';
+                        i++;
+                        l++;
+                    }
+                } else {
+                    while(i < 11){
+                        msg += message('-/', l, r) + '<br />';
+                        i++;
+                        r++
+                    }
+                }
+                operatorChosen.pop();
+                break;
+       }
+                console.log(operatorChosen);
+        /*
         if(operator === 'random'){
             operator = operatorArr[operatorRand];
         }
@@ -366,15 +615,14 @@ function math2(operator, table){
                 }
                 }
             }
-        }
+        }*/
         $("#blackboard").html(msg); 
         if (i == 11) {
             i = 1;
             msg = "";
         }
+        operatorChosen.pop();
     });
-
-
     let answerArr = [];
     let practicemsg = '';
     let correctCounter = 0;
@@ -456,11 +704,10 @@ function math2(operator, table){
         $('#operator').toggle();
         $('#test').toggle();
         $('#page2').toggle();
-        if (practicemsg.length > 0) {
-            practicemsg = "";
-        }
-        for (let i = 0; i < 10; i++) {
+        
+        while(i < 11){
             practicemsg += initPractice();
+            i++;
         }
         $("#question").html(practicemsg);
         console.log(answerArr);
@@ -487,6 +734,7 @@ function math2(operator, table){
         }
         console.log(answerArr);
         $("#question").html(practicemsg);
+        $('input[type=text]').val("");
     });
     $('#answer').on('input', function(e){
         e.preventDefault();
