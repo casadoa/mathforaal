@@ -40,19 +40,33 @@
                     <button class="num1" name="nine" type="button" value="9"></button>
                 </div>
                 <section id="blackboard"></section>
+                <div class="tens rOperand">
+                    <button class="num2" name="one" type="button" value="0">0</button>
+                    <button class="num2" name="two" type="button" value="10">10</button>
+                    <button class="num2" name="three" type="button" value="20">20</button>
+                    <button class="num2" name="four" type="button" value="30">30</button>
+                    <button class="num2" name="five" type="button" value="40">40</button>
+                    <button class="num2" name="six" type="button" value="50">50</button>
+                    <button class="num2" name="seven" type="button" value="60">60</button>
+                    <button class="num2" name="eight" type="button" value="70">70</button>
+                    <button class="num2" name="nine" type="button" value="80">80</button>
+                    <button class="num2" name="ten" type="button" value="90">90</button>
+                </div>
+                <!--
                 <div class="arrows">
                     <button class="arrow" name="left" type="button" value="less"><<<p class="before"></p></button>
                     <button class="arrow" name="right" type="button" value="more">>><p class="after"></p></button>
                 </div>
+            -->
             </div>
             
         </section>
         
         <form id="operator">
-            <button class="math" name="add" type="button" value="+">+</button>
-            <button class="math" name="subtract" type="button" value="-">-</button>
-            <button class="math" name="multiply" type="button" value="x">x</button>
-            <button class="math" name="division" type="button" value="/">/</button>
+            <button class="math op" name="add" type="button" value="+">+</button>
+            <button class="math op" name="subtract" type="button" value="-">-</button>
+            <button class="math op" name="multiply" type="button" value="x">x</button>
+            <button class="math op" name="division" type="button" value="/">/</button>
         </form>
         <form id="test">
             <button class="test" name="test" type="button" value="test">TEST</button>
@@ -74,15 +88,15 @@
             <input id="10" class="answerInput" type="text" name="answer9" size="5" maxlength="5" />
         </div>
     </section>
-
-    <button class="return" id="return" name="return" type="button" value="return">Return</button>
-
-    <button class="check" id="check" name="check" type="button" value="check">Check</button>
-
-    <button class="again" id="again" name="again" type="button" value="check">Again</button>
+    <div class="practiceButton">
+        <button class="return" id="return" name="return" type="button" value="return">Return</button>
+        <button class="check" id="check" name="check" type="button" value="check">Check</button>
+        <button class="again" id="again" name="again" type="button" value="check">Again</button>
+    </div>
+    
 </section>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script src="/index.js"></script>
+        <script src="/try.js"></script>
     </body>
     <footer>
         <p>&copy Ayleen Andrea Logan</p>
