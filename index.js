@@ -304,12 +304,12 @@ leftTable.push(l);
         let rightClicked = $(this).text();
         j = rightClicked;
         r = rightClicked;
-console.log('lllll' + l);
+    //    console.log('lllll' + l);
         if(!l)
 {
     l = 1;
 }   
-        console.log('ll' + l);
+    //    console.log('ll' + l);
         if(leftTable.length == 0){
             leftTable.push(1);
             //l = 1;
@@ -325,9 +325,9 @@ console.log('lllll' + l);
 rightTable.push(r);
         r = rightTable[0];
         l = leftTable[0]
-       console.log('left table in right operand ' + leftTable[0]);
-       console.log('m array   ' + m);
-        console.log(te);
+      // console.log('left table in right operand ' + leftTable[0]);
+      // console.log('m array   ' + m);
+       // console.log(te);
         console.log('left ' + l + ' right ' + r);
         let o = operatorChosen[0];
         //math3('+', l, r);
@@ -391,13 +391,20 @@ rightTable.push(r);
         operator = operatorChosen[0];
         console.log('operator chosen   ' + operatorChosen);
         let mes;
+        //console.log(`${left}${operator}${right}`);
         switch(operator){
             case '+':
                 mes =  left + operator + right + ' = ' + mat.add(left,right);
                 //console.log(`${left}${operator}${right}=${mat.add(left,right)}`);
                 break;
             case '-':
-                mes =  left + operator + right + ' = ' + mat.subtract(left,right);
+                if((left - right) < 0){
+                    mes = right + operator + left + ' = ' + mat.subtract(right, left);
+                    console.log(`${right}${operator}${left}=${mat.subtract(right, left)}`);
+                } else {
+                    mes =  left + operator + right + ' = ' + mat.subtract(left,right);
+                    console.log(`${left}${operator}${right}=${mat.subtract(left,right)}`);
+                }
                 //console.log(`${left}${operator}${right}=${mat.subtract(left,right)}`);
                 break; 
             case 'x':
@@ -489,22 +496,11 @@ rightTable.push(r);
                 break;
             case '-':
                 operatorChosen.push('-')
-                if(l < r){
-                    let min = l;
-                    l = r;
-                    r = min;
-                    while(i < 11){
-                        msg += message('-', l, r) + '<br />';
-                        i++;
-                        l++;
-                    }
-                } else {
                     while(i < 11){
                         msg += message('-', l, r) + '<br />';
                         i++;
                         r++
                     }
-                }
                 operatorChosen.pop();
                 break;
             case 'x':
