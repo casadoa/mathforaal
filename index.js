@@ -433,17 +433,14 @@ rightTable.push(r);
         
         let msgOperator = '';
         let expression;
-        //let operatorArr = ['+', '-', 'x', '/'];
-        //let operatorRand = Math.floor(Math.random() * 4);
 
         let operatorArr = ['+', '-', 'x'];
         let operatorRand = Math.floor(Math.random() * 3);
         let operator = $(this).attr("value");
         let temp = j;
-        //r = j;
-        //l = leftTable[0];
-        //r = rightTable[0];
-        //operatorChosen.push(operator);
+
+        l = leftTable[0];
+        r = rightTable[0];
         if(!l && !r){
             l = Math.floor(Math.random() * 101);
             r = Math.floor(Math.random() * 101);
@@ -455,22 +452,9 @@ rightTable.push(r);
         if(!operator){
             operator = operatorArr[operatorRand];
         }
-   // console.log('left ' + l + '  operator  ' + operatorChosen[0] + ' right ' + r);
-        
-       /* if(operator === 'random'){
-            operatorChosen.push(operatorArr[operatorRand]);
-            while(i < 11){
-                l = Math.floor(Math.random() * 101);
-                r = Math.floor(Math.random() * 101);
-                operator = operatorArr[operatorRand];
     console.log('left ' + l + '  operator  ' + operatorChosen[0] + ' right ' + r);
-    console.log(operatorArr[operatorRand])
-                msg += message(operator, l, r) + '<br />';
-                i++;
-                r++
-            }
-            operatorChosen.pop();
-        }*/
+    console.log('left ' + leftTable + '  operator  ' + operatorChosen[0] + ' right ' + rightTable);
+        
         
        switch(operator){
            case 'random':
