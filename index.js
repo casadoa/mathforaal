@@ -518,84 +518,7 @@ rightTable.push(r);
                 break;
        }
                 console.log(operatorChosen);
-        /*
-        if(operator === 'random'){
-            operator = operatorArr[operatorRand];
-        }
-        if(operator === '+'){
-            msgOperator = String.fromCodePoint(0x002B);
-            expression = (+table + +j);
-            for(i; i < 11; i++){
-                msg += table + msgOperator + j + ' = ' + (+table + +j) + '<br />';
-                j++; 
-            }
-        } else if (operator === '-') {
-            msgOperator = String.fromCodePoint(0x2212);
-            expression = (table - j);
-            if(j > table){
-                for(i; i < 11; i++){
-                    msg += j + msgOperator + table + ' = ' + (j - table) + '<br />';
-                    j++; 
-                }
-            } else {
-                for(i; i < 11; i++){
-                    msg += table + msgOperator + j + ' = ' + (table - j) + '<br />';
-                    j++; 
-                }
-            }
-            
-        } else if (operator === 'x') {
-            msgOperator = String.fromCodePoint(0x00D7);
-            expression = (table * j);
-            for(i; i < 11; i++){
-                msg += table + msgOperator + j + ' = ' + (table * j) + '<br />';
-                j++; 
-            }
-        } else if (operator === '/') {
-            msgOperator = String.fromCodePoint(0x00F7);
-   
-            for(i; i < 11; i++){
-                if(table > 9){
-                    if(j < table){
-                        let remainder = table % j;
-                        if(remainder === 0){
-                            msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(2) + '<br />';
-                            
-                        } else {
-                            msg += table + msgOperator + j + ' = ' + Math.floor((table / j).toPrecision(2)) + ' remainder ' + remainder + '<br />';
-                       }
-                        j++;
-                    } else {
-                        let remainder = j / table;
-                        if(remainder === 0){
-                            msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(1) + '<br />';
-                        } else {
-                            msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(2) + '<br />';
-                       }
-                        j++; 
-                    }
-                } else {
-                    if(j < table){
-                    let remainder = table % j;
-                    if(remainder === 0){
-                        msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(1) + '<br />';
-                        
-                    } else {
-                        msg += table + msgOperator + j + ' = ' + Math.floor((table / j).toPrecision(2)) + ' remainder ' + remainder + '<br />';
-                   }
-                    j++;
-                } else {
-                    let remainder = j / table;
-                    if(remainder === 0){
-                        msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(1) + '<br />';
-                    } else {
-                        msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(2) + '<br />';
-                   }
-                    j++; 
-                }
-                }
-            }
-        }*/
+      
         $("#blackboard").html(msg); 
         if (i == 11) {
             i = 1;
@@ -603,7 +526,10 @@ rightTable.push(r);
         }
         operatorChosen.pop();
     });
+
     let answerArr = [];
+    let equationArr = [];
+    let inputCopyArr = [];
     let practicemsg = '';
     let correctCounter = 0;
     let $answer = $('input.answerInput');  
@@ -656,6 +582,7 @@ rightTable.push(r);
         switch (operatorArr[operatorRand]) {
             case '+':
                 answerArr.push(math.add(left, right));
+                equationArr.push(`${left} ${operatorArr[operatorRand]} ${right} = ${math.add(left,right)}`);
                 break;
             case '-':
                 while (Math.sign(left - right) === -1 || (left - right) === 0) {
@@ -663,9 +590,13 @@ rightTable.push(r);
                 right = Math.floor(Math.random() * 10 + 1);
                 }
                 answerArr.push(math.subtract(left, right));
+
+                equationArr.push(`${left} ${operatorArr[operatorRand]} ${right} = ${math.subtract(left,right)}`);
                 break;
             case 'x':
                 answerArr.push(math.multiply(left, right));
+
+                equationArr.push(`${left} ${operatorArr[operatorRand]} ${right} = ${math.multiply(left,right)}`);
                 break;
             case '/':
                 while ((left % right) != 0) {
@@ -673,10 +604,13 @@ rightTable.push(r);
                 right = Math.floor(Math.random() * 10 + 1);
                 }
                 answerArr.push(math.divide(left, right));
+
+                equationArr.push(`${left} ${operatorArr[operatorRand]} ${right} = ${math.divide(left,right)}`);
                 break;
         }
         let expressionReturned = "<div class='equation'>" + left  + operatorArr[operatorRand] +  right + ' = </div>';
         console.log(`${left} ${operatorArr[operatorRand]} ${right}`)
+        //console.log(equationArr);
         return expressionReturned;
     }
     $($practiceButton).on('click', function() {
@@ -696,7 +630,23 @@ rightTable.push(r);
             practicemsg = "";
         }
     });
-  
+    $('.test').on('click', function() {
+        $('#page1').toggle();
+        $('#operator').toggle();
+        $('#test').toggle();
+        $('#page2').toggle();
+        
+        while(i < 11){
+            practicemsg += initPractice();
+            i++;
+        }
+        $("#question").html(practicemsg);
+        console.log(answerArr);
+        if (i == 11) {
+            i = 1;
+            practicemsg = "";
+        }
+    });
     $('.again').on('click', function() {
         if($('#answer').is(":hidden")){
             $('#answer').toggle();
@@ -713,7 +663,10 @@ rightTable.push(r);
             practicemsg += initPractice();
         }
         console.log(answerArr);
-        $("#question").html(practicemsg);
+        $("#question").html(practicemsg).css({
+            'width': '',
+            'font-size': ''
+        });
         $('input[type=text]').val("");
     });
     $('#answer').on('input', function(e){
@@ -730,6 +683,9 @@ rightTable.push(r);
         let an9 = $a9.val();
         let an10 = $a10.val();
         aArr = [an1, an2, an3, an4, an5, an6, an7, an8, an9, an10];
+
+        inputCopyArr = [an1, an2, an3, an4, an5, an6, an7, an8, an9, an10];
+        //console.log(aArr);
     });
     $('#check').on('click', function compare2(){
         if(correctCounter > 0){
@@ -746,16 +702,20 @@ rightTable.push(r);
             if(aArr[index] == answerArr[index]){
                 correct.push(aArr[index]);
                 correctCounter++;      
+                equationArr.splice(index, 1);
+                inputCopyArr.splice(index, 1);
             } else{
                 wrong.push(answerArr[index]);
             }
         }
+        console.log('equation arr to see if wrong works ' + equationArr);
         console.log('correct in check ' + correctCounter);
         console.log('answer correct ' + (correctCounter/10)*100 + '%');
         console.log('correct arr ' + correct);
         console.log('wrong arr ' + wrong);
         $('#answer').toggle();
         $('#question').html(""); 
+       /*
         let letter = '';
         if((correctCounter/10)*100 == 100){
             letter = 'A+'
@@ -773,5 +733,16 @@ rightTable.push(r);
             letter = 'Keep Trying';
         }
         $('#question').html('<h1 class="done">' + (correctCounter/10)*100 + '%' + '<br />' + '<h2 class="saying">' + letter + '</h2>' +  '</h1>');
+   */
+        let num = 0;
+        while(equationArr.length > 0){
+            msg += equationArr.pop() + '  ..your answer -> [ '  + inputCopyArr[num] + ' ]' + "<br  />";
+            num++;
+        } 
+        $('#question').html(msg).css({
+            'font-size': '23px',
+            'text-align': 'center',
+            'width': '90%'
+        });
     });
 });

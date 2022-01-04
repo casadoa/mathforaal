@@ -22,7 +22,7 @@ h1 {
 
 #page1, #page2 {
 	background-color: #fecc6f;
-	max-height: 750px;
+	max-height: 700px;
 	padding: 10px;
 	min-width: 779px;
 	border: 1px solid rgb(76, 192, 40);
@@ -37,10 +37,10 @@ h1 {
 	background-color: #425a5a;
 	border: 25px solid #523620;
 	width: 600px;
-	height: 500px;
+	height: 450px;
 	border-radius: 20px;
 	padding: 20px 20px;
-	margin: 0px auto;
+	margin: 10px auto 0px;
 	text-align: center;
 	line-height: 1.5;
 	letter-spacing: 0.125em;
