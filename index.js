@@ -26,111 +26,8 @@ $(function() {
     let operatorChosen = [];
     let temp;
     let l, r;                                       //left and right side number
-function math3(operator, left, right){
-    let msg = '';
-    let msgOperator = '';
-    let expression;
-    let operatorArr = ['+', '-', 'x', '/'];
-    let operatorRand = Math.floor(Math.random() * 4);
-    if(!m[0]){
-        j = 0;
-    }
-    j = right;
-    left = l;
-    temper = j;
-    operatorChosen.push(operator);
-    console.log('operator chosen  ' + operatorChosen);
 
-
-    if(operator === null){
-        operator = 'random';
-    }
-    if(table === null){
-        table = 1;
-    }
-    if(operator === 'random'){
-        operator = operatorArr[operatorRand];
-    }
-    if(operator === '+'){
-        msgOperator = String.fromCodePoint(0x002B);
-        expression = (+table + +j);
-
-        console.log(left + ' + ' + right + ' = ' + (+left+ +right));
-        while(i < 11){
-            msg += left + msgOperator + right + ' = ' + (+left + +right) + '<br />';
-            right++; 
-            i++
-        }
-    } else if (operator === '-') {
-        msgOperator = String.fromCodePoint(0x2212);
-        expression = (table - j);
-        console.log(left + ' - ' + right + ' = ' + (left-right));
-        while(i < 11){
-            msg += left + msgOperator + right + ' = ' + (left - right) + '<br />';
-            right++; 
-            i++;
-        }
-    } else if (operator === 'x') {
-        msgOperator = String.fromCodePoint(0x00D7);
-        expression = (table * j);
-
-        console.log(left + ' + ' + right + ' = ' + (left*right));
-        while(i < 11){
-            msg += left + msgOperator + right + ' = ' + (left * right) + '<br />';
-            right++; 
-            i++
-        }
-    } else if (operator === '/') {
-        msgOperator = String.fromCodePoint(0x00F7);
-
-        console.log(left + ' ' + right + ' ' + (left/right));
-        while(i < 11){
-            if(table > 9){
-                if(j < table){
-                    let remainder = table % j;
-                    if(remainder === 0){
-                        msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(2) + '<br />';
-                        
-                    } else {
-                        msg += table + msgOperator + j + ' = ' + Math.floor((table / j).toPrecision(2)) + ' remainder ' + remainder + '<br />';
-                   }
-                } else {
-                    let remainder = j / table;
-                    if(remainder === 0){
-                        msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(1) + '<br />';
-                    } else {
-                        msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(2) + '<br />';
-                   }
-                }
-            } else {
-                if(j < table){
-                let remainder = table % j;
-                if(remainder === 0){
-                    msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(1) + '<br />';
-                    
-                } else {
-                    msg += table + msgOperator + j + ' = ' + Math.floor((table / j).toPrecision(2)) + ' remainder ' + remainder + '<br />';
-               }
-            } else {
-                let remainder = j / table;
-                if(remainder === 0){
-                    msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(1) + '<br />';
-                } else {
-                    msg += table + msgOperator + j + ' = ' + (table / j).toPrecision(2) + '<br />';
-               }
-            }
-            }
-            j++
-            i++;
-        }
-    }
-    $("#blackboard").html(msg); 
-    if (i == 11) {
-        i = 1;
-        msg = "";
-    }
-    operatorChosen.pop();
-}
+      
     $('#return').on('click', function(){
         $('#page1').toggle();
         $('#operator').toggle();
@@ -198,7 +95,7 @@ function math3(operator, left, right){
             $($ownNum).show("slow");
             $($arrowButton).show("slow");
             $($ownNum).show("slow");
-        j = 0;
+        //j = 0;
         math2('random', table);
     });
     function invertColor(hex) {
@@ -302,7 +199,6 @@ leftTable.push(l);
         let randomColor = Math.floor(Math.random() * (0xffffff + 1)).toString(16).padStart(6, '0')
         
         let rightClicked = $(this).text();
-        j = rightClicked;
         r = rightClicked;
     //    console.log('lllll' + l);
         if(!l)
@@ -317,12 +213,12 @@ leftTable.push(l);
         while(m.length > 0){
             m.pop();
         }
-        m.push(j);
+        //m.push(j);
         let te = leftTable[0];
         if(rightTable.length > 0){
             rightTable.pop();
         }
-rightTable.push(r);
+        rightTable.push(r);
         r = rightTable[0];
         l = leftTable[0]
       // console.log('left table in right operand ' + leftTable[0]);
@@ -365,20 +261,19 @@ rightTable.push(r);
         divide: function (left, right) {
             let result = NaN;
             let remainder = NaN;
-            //if(right > left)
             console.log('left ' + left + ' right '  + right);
             if(!isNaN(left) && !isNaN(right)){
                 if((left / right) < 10){
                     if(left % right === 0){
-                        result = (left / right).toPrecision(1);
+                        result = Math.floor((left / right)).toPrecision(1);
                     } else {
-                        result = (left / right).toPrecision(1) + ' remainder ' + (left % right);
+                        result = Math.floor((left / right)).toPrecision(1) + ' remainder ' + (left % right);
                     }
                 } else {
                     if(left % right === 0){
-                    result = (left / right).toPrecision(2);
+                    result = Math.floor((left / right)).toPrecision(2);
                 } else {
-                    result = (left / right).toPrecision(2) + ' remainder ' + (left % right);
+                    result = Math.floor((left / right)).toPrecision(2) + ' remainder ' + (left % right);
                 }
             }
         }
@@ -389,27 +284,20 @@ rightTable.push(r);
         left = l;
         right = r;
         operator = operatorChosen[0];
-        console.log('operator chosen   ' + operatorChosen);
         let mes;
-        //console.log(`${left}${operator}${right}`);
         switch(operator){
             case '+':
                 mes =  left + operator + right + ' = ' + mat.add(left,right);
-                //console.log(`${left}${operator}${right}=${mat.add(left,right)}`);
                 break;
             case '-':
                 if((left - right) < 0){
                     mes = right + operator + left + ' = ' + mat.subtract(right, left);
-                    console.log(`${right}${operator}${left}=${mat.subtract(right, left)}`);
                 } else {
                     mes =  left + operator + right + ' = ' + mat.subtract(left,right);
-                    console.log(`${left}${operator}${right}=${mat.subtract(left,right)}`);
                 }
-                //console.log(`${left}${operator}${right}=${mat.subtract(left,right)}`);
                 break; 
             case 'x':
                 mes =  left + operator + right + ' = ' + mat.multiply(left,right);
-                //console.log(`${left}${operator}${right}=${mat.multiply(left,right)}`);
                 break; 
             case '/':
                 if(left < right){
@@ -421,7 +309,6 @@ rightTable.push(r);
 
                 console.log(`${left}${operator}${right}=${mat.divide(left,right)}`);
         }
-        //operatorChosen.pop();
         return mes;
       }
 
@@ -437,7 +324,6 @@ rightTable.push(r);
         let operatorArr = ['+', '-', 'x'];
         let operatorRand = Math.floor(Math.random() * 3);
         let operator = $(this).attr("value");
-        let temp = j;
 
         l = leftTable[0];
         r = rightTable[0];
@@ -452,9 +338,6 @@ rightTable.push(r);
         if(!operator){
             operator = operatorArr[operatorRand];
         }
-    console.log('left ' + l + '  operator  ' + operatorChosen[0] + ' right ' + r);
-    console.log('left ' + leftTable + '  operator  ' + operatorChosen[0] + ' right ' + rightTable);
-        
         
        switch(operator){
            case 'random':
@@ -499,9 +382,6 @@ rightTable.push(r);
             case '/':
                 operatorChosen.push('/')
                 if(l < r){
-                    //let min = l;
-                    //l = r;
-                    //r = min;
                     while(i < 11){
                         msg += message('/', l, r) + '<br />';
                         i++;
@@ -511,7 +391,7 @@ rightTable.push(r);
                     while(i < 11){
                         msg += message('-/', l, r) + '<br />';
                         i++;
-                        r++
+                        r++;
                     }
                 }
                 operatorChosen.pop();
@@ -543,7 +423,7 @@ rightTable.push(r);
     let $a8 = $('input#8');                  
     let $a9 = $('input#9'); 
     let $a10 = $('input#10'); 
-    let aArr = [];
+    let inputArr = [];
     let operatorArr = ['+', '-', 'x', '/'];
     let math = {
         add: function(left, right) {
@@ -579,6 +459,7 @@ rightTable.push(r);
         let left = Math.floor(Math.random() * 10 + 1);
         let right = Math.floor(Math.random() * 10 + 1);
         let operatorRand = Math.floor(Math.random() * 4);
+        let expressionReturned = '';
         switch (operatorArr[operatorRand]) {
             case '+':
                 answerArr.push(math.add(left, right));
@@ -605,12 +486,15 @@ rightTable.push(r);
                 }
                 answerArr.push(math.divide(left, right));
 
-                equationArr.push(`${left} ${operatorArr[operatorRand]} ${right} = ${math.divide(left,right)}`);
+                equationArr.push(`${left} ${String.fromCodePoint(0x00F7)} ${right} = ${math.divide(left,right)}`);
                 break;
         }
-        let expressionReturned = "<div class='equation'>" + left  + operatorArr[operatorRand] +  right + ' = </div>';
-        console.log(`${left} ${operatorArr[operatorRand]} ${right}`)
-        //console.log(equationArr);
+        if(operatorArr[operatorRand] == '/'){
+            expressionReturned = "<div class='equation'>" + left  + String.fromCodePoint(0x00F7) +  right + ' = </div>';
+        } else {
+            expressionReturned = "<div class='equation'>" + left  + operatorArr[operatorRand] +  right + ' = </div>';
+        }
+       // console
         return expressionReturned;
     }
     $($practiceButton).on('click', function() {
@@ -618,6 +502,8 @@ rightTable.push(r);
         $('#operator').toggle();
         $('#test').toggle();
         $('#page2').toggle();
+
+        $('#result').toggle();
         
         while(i < 11){
             practicemsg += initPractice();
@@ -635,6 +521,7 @@ rightTable.push(r);
         $('#operator').toggle();
         $('#test').toggle();
         $('#page2').toggle();
+        $('#result').toggle();
         
         while(i < 11){
             practicemsg += initPractice();
@@ -651,9 +538,15 @@ rightTable.push(r);
         if($('#answer').is(":hidden")){
             $('#answer').toggle();
         }
-        if(answerArr.length > 0){
+        if($('#result').is(":visible")){
+            $('#result').toggle();
+        }
+        if(answerArr.length > 0 || equationArr.length > 0 || correct.length > 0 || wrong.length > 0){
             for(let i = 0; i < 10; i++){
             answerArr.pop();
+            equationArr.pop();
+            correct.pop();
+            wrong.pop();
             }
         }
         if (practicemsg.length > 0) {
@@ -662,10 +555,13 @@ rightTable.push(r);
         for (let i = 0; i < 10; i++) {
             practicemsg += initPractice();
         }
-        console.log(answerArr);
         $("#question").html(practicemsg).css({
             'width': '',
-            'font-size': ''
+            'font-size': '',
+            'line-height': '',
+            'text-align': '',
+            'justify-content': '',
+            'align-items': ''
         });
         $('input[type=text]').val("");
     });
@@ -682,12 +578,16 @@ rightTable.push(r);
         let an8 = $a8.val();
         let an9 = $a9.val();
         let an10 = $a10.val();
-        aArr = [an1, an2, an3, an4, an5, an6, an7, an8, an9, an10];
+        inputArr = [an1, an2, an3, an4, an5, an6, an7, an8, an9, an10];
 
-        inputCopyArr = [an1, an2, an3, an4, an5, an6, an7, an8, an9, an10];
-        //console.log(aArr);
+        inputCopyArr = inputArr.map(x => x);     //copy of input Array to show what answer were input
     });
     $('#check').on('click', function compare2(){
+
+        $('#result').toggle();
+        for(let index = 0; index < 10; index++){
+                console.log(equationArr[index]);
+        }
         if(correctCounter > 0){
             correctCounter = 0;
         }
@@ -695,24 +595,20 @@ rightTable.push(r);
             for(let i = 0; i < 10; i++){
                 correct.pop();
                 wrong.pop();
+                equationArr.pop();
+                inputCopyArr.pop();
             }
         }    
-        console.log('answers ' + aArr);
+        
         for(let index = 0; index < 10; index++){
-            if(aArr[index] == answerArr[index]){
-                correct.push(aArr[index]);
-                correctCounter++;      
-                equationArr.splice(index, 1);
-                inputCopyArr.splice(index, 1);
+            if(inputArr[index] == answerArr[index]){
+                correctCounter++;   
+                correct.push(equationArr[index]);
+
             } else{
-                wrong.push(answerArr[index]);
+                wrong.push(equationArr[index] + ' your answer was [' + inputArr[index] + ']');
             }
         }
-        console.log('equation arr to see if wrong works ' + equationArr);
-        console.log('correct in check ' + correctCounter);
-        console.log('answer correct ' + (correctCounter/10)*100 + '%');
-        console.log('correct arr ' + correct);
-        console.log('wrong arr ' + wrong);
         $('#answer').toggle();
         $('#question').html(""); 
        /*
@@ -734,15 +630,45 @@ rightTable.push(r);
         }
         $('#question').html('<h1 class="done">' + (correctCounter/10)*100 + '%' + '<br />' + '<h2 class="saying">' + letter + '</h2>' +  '</h1>');
    */
-        let num = 0;
-        while(equationArr.length > 0){
-            msg += equationArr.pop() + '  ..your answer -> [ '  + inputCopyArr[num] + ' ]' + "<br  />";
-            num++;
+        $('#question').html(msg).css({
+            'font-size': '50vw',
+            'text-align': 'center',
+            'width': '99%',
+            'line-height': '1.8',
+            'justify-content': 'center',
+            'align-items': 'center'
+        });
+    });
+    $('#wrong').on('click', function(){
+        while(j < wrong.length){
+            msg += wrong[j] + "<br  />";
+            j++;
         } 
         $('#question').html(msg).css({
-            'font-size': '23px',
+            'font-size': '2.5vw',
             'text-align': 'center',
-            'width': '90%'
+            'width': '99%',
+            'line-height': '1.8',
         });
+        if (j > 0) {
+            j = 0;
+            msg = "";
+        }
+    });
+    $('#correct').on('click', function(){
+        while(j < correct.length){
+            msg += correct[j] + "<br  />";
+            j++;
+        } 
+        $('#question').html(msg).css({
+            'font-size': '2.5vw',
+            'text-align': 'center',
+            'width': '99%',
+            'line-height': '1.8',
+        });
+        if (j > 0) {
+            j = 0;
+            msg = "";
+        }
     });
 });
