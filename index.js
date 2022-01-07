@@ -1,6 +1,5 @@
 $(function() {
     let table = 1;                                  //left side number
-    let tableRight = 1;                             //right side number
     let i = 1, j = 0;
     let m = [];
     let msg = '';
@@ -66,37 +65,17 @@ $(function() {
         e.preventDefault();
         let temp = 0;               //temp  value just in case min > max bounds
 
-        let ownText = $ownNum.val();
-        let minText = $minText.val();
-        
-        let maxText = $maxText.val();
-        if(ownText){
-            table = ownText;
+        if(rightTable.length > 0 || leftTable.length > 0){
+            rightTable.pop();
+            leftTable.pop();
         }
-        else if(minText > maxText){  //make sure min bound is always smaller than max even if min entered is larger than max bound
-            temp = minText;
-            minText = maxText;
-            maxText = temp;
-            table = Math.floor(Math.random() * (maxText - minText) + minText); //This value now becomes table to ensure table is between these two numbers
-        }
-        
-        console.log('own num in option ' + ownText);
-        console.log('min ' + minText);
-        console.log('max ' + maxText);
-        //table = ownText;
-        if(minText.length > 3 || maxText.length > 3){
-            console.log('hi');
-            let a = parseInt(minText);
-            //maxText.toPrecision(2);
-            console.log('min text ' + a);
-        }
-        
-            $('.tens').show("slow");
-            $($ownNum).show("slow");
-            $($arrowButton).show("slow");
-            $($ownNum).show("slow");
-        //j = 0;
-        math2('random', table);
+        //let ownText = $ownNum.val();
+        l = $minText.val();
+        leftTable.push($minText.val());
+        r = $maxText.val();
+        rightTable.push($maxText.val());
+        //table = Math.floor(Math.random() * (maxText - minText) + minText); //This value now becomes table to ensure table is between these two numbers
+  
     });
     function invertColor(hex) {
         if (hex.indexOf('#') === 0) {
@@ -107,9 +86,7 @@ $(function() {
             hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
         }
         if (hex.length !== 6) {
-            
             throw new Error('Invalid HEX color.');
-            
         }
         // invert color components
         var r = (255 - parseInt(hex.slice(0, 2), 16)).toString(16),
@@ -141,18 +118,18 @@ $(function() {
         if(leftTable.length > 0){
             leftTable.pop();
         }
-leftTable.push(l);
+        leftTable.push(l);
         if(!r){
-    r = 0;
-}
+            r = 0;
+        }
         let ten = $(this).attr("value");        //get the 10's button
         $(this).empty().html(ten);              //making the value the html for the tens button
         let tenIndex = $('.num').index(this);  
-leftTable.push(l);
-l = leftTable[0];
+        leftTable.push(l);
+        l = leftTable[0];
 
-r = rightTable[0];
-        //math3('/', l, r);
+        r = rightTable[0];
+        
         if(leftTable.length > 0){
             leftTable.pop();
         }
@@ -170,9 +147,8 @@ r = rightTable[0];
             if(leftTable.length > 0){
                 leftTable.pop();
             }
-leftTable.push(l);
+            leftTable.push(l);
             l = leftTable[0];
-            //math3('/', l, r);
         }).each(function() {
             let t = ++table;
             $(this).empty().text(t);
@@ -189,6 +165,7 @@ leftTable.push(l);
             }
         });
         
+       
     }).each(function() {
         let ten = $(this).attr("value");
         $(this).empty().html(ten);
@@ -200,31 +177,20 @@ leftTable.push(l);
         
         let rightClicked = $(this).text();
         r = rightClicked;
-    //    console.log('lllll' + l);
         if(!l)
-{
-    l = 1;
-}   
-    //    console.log('ll' + l);
+        {
+            l = 1;
+        }   
         if(leftTable.length == 0){
             leftTable.push(1);
-            //l = 1;
         }
-        while(m.length > 0){
-            m.pop();
-        }
-        //m.push(j);
         let te = leftTable[0];
         if(rightTable.length > 0){
             rightTable.pop();
         }
         rightTable.push(r);
         r = rightTable[0];
-        l = leftTable[0]
-      // console.log('left table in right operand ' + leftTable[0]);
-      // console.log('m array   ' + m);
-       // console.log(te);
-        console.log('left ' + l + ' right ' + r);
+        l = leftTable[0];
         let o = operatorChosen[0];
         //math3('+', l, r);
 
@@ -234,7 +200,7 @@ leftTable.push(l);
             'background-color': '#' + randomColor,
             'color':  invert
         }); 
-    });
+    });;
 
     let mat = {
         add: function (left, right) {
@@ -261,7 +227,6 @@ leftTable.push(l);
         divide: function (left, right) {
             let result = NaN;
             let remainder = NaN;
-            console.log('left ' + left + ' right '  + right);
             if(!isNaN(left) && !isNaN(right)){
                 if((left / right) < 10){
                     if(left % right === 0){
@@ -281,10 +246,13 @@ leftTable.push(l);
         }
     }
     function message(operator, left, right) {
-        left = l;
-        right = r;
+        //left = l;
+        //right = r;
         operator = operatorChosen[0];
         let mes;
+        if(operator == 'random'){
+            operator = operatorArr[operatorRand];
+        }
         switch(operator){
             case '+':
                 mes =  left + operator + right + ' = ' + mat.add(left,right);
@@ -305,9 +273,6 @@ leftTable.push(l);
                 } else {
                     mes =  left + String.fromCodePoint(0x00F7) + right + ' = ' + mat.divide(left,right);
                 }
-                
-
-                console.log(`${left}${operator}${right}=${mat.divide(left,right)}`);
         }
         return mes;
       }
@@ -318,15 +283,13 @@ leftTable.push(l);
         $($arrowButton).show("slow");
         $($ownNum).show("slow");
         
-        let msgOperator = '';
-        let expression;
 
-        let operatorArr = ['+', '-', 'x'];
+        //let operatorArr = ['+', '-', 'x'];
         let operatorRand = Math.floor(Math.random() * 3);
         let operator = $(this).attr("value");
-
         l = leftTable[0];
         r = rightTable[0];
+
         if(!l && !r){
             l = Math.floor(Math.random() * 101);
             r = Math.floor(Math.random() * 101);
@@ -360,6 +323,7 @@ leftTable.push(l);
                     r++
                 }
                 console.log(operatorChosen);
+                console.log(' left ' + l + ' right ' + r);
                 break;
             case '-':
                 operatorChosen.push('-')
@@ -385,11 +349,11 @@ leftTable.push(l);
                     while(i < 11){
                         msg += message('/', l, r) + '<br />';
                         i++;
-                        l++;
+                        r++;
                     }
                 } else {
                     while(i < 11){
-                        msg += message('-/', l, r) + '<br />';
+                        msg += message('/', l, r) + '<br />';
                         i++;
                         r++;
                     }
@@ -397,7 +361,6 @@ leftTable.push(l);
                 operatorChosen.pop();
                 break;
        }
-                console.log(operatorChosen);
       
         $("#blackboard").html(msg); 
         if (i == 11) {
@@ -429,7 +392,7 @@ leftTable.push(l);
         add: function(left, right) {
             let result = NaN;
             if (!isNaN(left) && !isNaN(right)) {
-            result = left + right;
+            result = +left + +right;
         }
         return result;
     },
@@ -467,16 +430,14 @@ leftTable.push(l);
                 break;
             case '-':
                 while (Math.sign(left - right) === -1 || (left - right) === 0) {
-                left = Math.floor(Math.random() * 10 + 1);
-                right = Math.floor(Math.random() * 10 + 1);
+                left = Math.floor(Math.random() * 20 + 1);
+                right = Math.floor(Math.random() * 20 + 1);
                 }
                 answerArr.push(math.subtract(left, right));
-
                 equationArr.push(`${left} ${operatorArr[operatorRand]} ${right} = ${math.subtract(left,right)}`);
                 break;
             case 'x':
                 answerArr.push(math.multiply(left, right));
-
                 equationArr.push(`${left} ${operatorArr[operatorRand]} ${right} = ${math.multiply(left,right)}`);
                 break;
             case '/':
@@ -485,16 +446,13 @@ leftTable.push(l);
                 right = Math.floor(Math.random() * 10 + 1);
                 }
                 answerArr.push(math.divide(left, right));
-
                 equationArr.push(`${left} ${String.fromCodePoint(0x00F7)} ${right} = ${math.divide(left,right)}`);
                 break;
         }
         if(operatorArr[operatorRand] == '/'){
             expressionReturned = "<div class='equation'>" + left  + String.fromCodePoint(0x00F7) +  right + ' = </div>';
-        } else {
-            expressionReturned = "<div class='equation'>" + left  + operatorArr[operatorRand] +  right + ' = </div>';
-        }
-       // console
+        } 
+        
         return expressionReturned;
     }
     $($practiceButton).on('click', function() {
@@ -585,9 +543,11 @@ leftTable.push(l);
     $('#check').on('click', function compare2(){
 
         $('#result').toggle();
+        console.log('equation arr before pop ' + equationArr);
         for(let index = 0; index < 10; index++){
                 console.log(equationArr[index]);
         }
+        console.log('inputCopyArr arr  before pop ' + inputCopyArr);
         if(correctCounter > 0){
             correctCounter = 0;
         }
