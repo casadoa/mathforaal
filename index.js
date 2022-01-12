@@ -24,7 +24,8 @@ $(function() {
     let operatorChosen = [];                        //which operator was chosen
     let temp;
     let l, r;                                       //left and right side number
-
+    let lColor = [];
+    let rColor = [];
       
     $('#return').on('click', function(){
         $('#page1').toggle();
@@ -82,6 +83,18 @@ $(function() {
         console.log(`${l} left ${r} right`);
 
         console.log(`${leftTable} left ${rightTable} right`);
+        $tens.css({
+            'background-color': "",
+            'color':  ""
+        });
+        $ones.css({
+            'background-color': "",
+            'color':  ""
+        });
+        $rOperand.css({
+            'background-color': "",
+            'color':  ""
+        });
        
     });
     function invertColor(hex) {
@@ -135,11 +148,39 @@ $(function() {
         leftTable[0] = ten;
         l = leftTable[0];
         r = rightTable[0];
+        console.log('lColor ' + lColor);
+        if(lColor[0] == $(this).html()){
+            lColor.splice(1,1);
+        } else {
+            lColor.push($(this).html());
+        }
 
-        
+        if(lColor.length == 1){
+            $(this).css({
+                'background-color': '#' + randomColor,
+                'color':  invert
+            }); 
+        } else {
+            if(lColor[1] != lColor[0]){
+                $('.num').css({
+                    'background-color': '',
+                    'color':  ''
+                });
+                $(this).css({
+                    'background-color': '#' + randomColor,
+                    'color':  invert
+                });
+                lColor.splice(0, 1);
+            }
+        }
+
+        console.log('lColor after logic ' + lColor);
+
+        $($ones).css({
+            'background-color': '',
+            'color': ''
+        });
         let ind = $('.num').index(this);        //finding index so i can see if 1 or the 10,20,30... is clicked
-        
-        console.log(`${l} left ${r} right`);
 
         console.log(`${leftTable} left ${rightTable} right`);
         $ones.on('click', function(){
@@ -148,17 +189,35 @@ $(function() {
                 'background-color': '#' + randomColor,
                 'color':  invert
             });  
-            table = oneClicked;
+
+            console.log('lColor in ones ' + lColor);
+            l = oneClicked;
             r = rightTable[0];
             if(leftTable.length > 0){
                 leftTable.pop();
             }
-            leftTable[0] = table;
-            l = leftTable[0];
-
+            leftTable[0] = l;
+            if(lColor[0] == $(this).html()){
+                lColor.splice(1,1);
+            } else {
+                lColor.push($(this).html());
+            }
+            if(lColor[1] != lColor[0]){
+                $('.num1').css({
+                    'background-color': '',
+                    'color':  ''
+                });
+                $(this).css({
+                    'background-color': '#' + randomColor,
+                    'color':  invert
+                });
+                lColor.splice(0, 1);
+            }
+            $($tens).css({
+                'background-color': '',
+                'color': ''
+            });
             console.log(`${l} left ${r} right`);
-
-            console.log(`${leftTable} left ${rightTable} right`);
         }).each(function() {
             let t = ++table;
             $(this).empty().text(t);
@@ -179,7 +238,6 @@ $(function() {
         let ten = $(this).attr("value");
         $(this).empty().html(ten);
     });
-
     $rOperand.on('click', function(){
 
         let randomColor = Math.floor(Math.random() * (0xffffff + 1)).toString(16).padStart(6, '0')
@@ -200,17 +258,34 @@ $(function() {
         r = rightTable[0];
         l = leftTable[0];
         
-        console.log(`${l} left ${r} right`);
-
-        console.log(`${leftTable} left ${rightTable[0]} right`);
         let o = operatorChosen[0];
 
         let invert = invertColor(randomColor);
 
-        $(this).css({
-            'background-color': '#' + randomColor,
-            'color':  invert
-        }); 
+        if(rColor[0] == $(this).html()){
+            rColor.splice(1,1);
+        } else {
+            rColor.push($(this).html());
+        }
+
+        if(rColor.length == 1){
+            $(this).css({
+                'background-color': '#' + randomColor,
+                'color':  invert
+            }); 
+        } else {
+            if(rColor[1] != rColor[0]){
+                $('.num2').css({
+                    'background-color': '',
+                    'color':  ''
+                });
+                $(this).css({
+                    'background-color': '#' + randomColor,
+                    'color':  invert
+                });
+                rColor.splice(0, 1);
+            }
+        }
     });
 
     let mat = {
@@ -487,6 +562,7 @@ $(function() {
             correct.pop();
             wrong.pop();
             }
+            practicemsg = "";
         }
         while(i < 11){
             practicemsg += initPractice();
@@ -498,6 +574,7 @@ $(function() {
             i = 1;
             practicemsg = "";
         }
+
     });
     $('.test').on('click', function() {
         $('#page1').toggle();
@@ -505,7 +582,9 @@ $(function() {
         $('#test').toggle();
         $('#page2').toggle();
         $('#result').toggle();
-        
+        if (practicemsg.length > 0) {
+            practicemsg = "";
+        }
         while(i < 11){
             practicemsg += initPractice();
             i++;
@@ -516,6 +595,9 @@ $(function() {
             i = 1;
             practicemsg = "";
         }
+        $('.equation').css({
+            'font-size': '25px;'
+        });
     });
     $('.again').on('click', function() {
         if($('#answer').is(":hidden")){
@@ -524,27 +606,34 @@ $(function() {
         if($('#result').is(":visible")){
             $('#result').toggle();
         }
+        if($('.check').is(":hidden")){
+            $('.check').show();
+        } 
         if(answerArr.length > 0 || equationArr.length > 0 || correct.length > 0 || wrong.length > 0){
             for(let i = 0; i < 10; i++){
-            answerArr.pop();
-            equationArr.pop();
-            correct.pop();
-            wrong.pop();
+            answerArr.pop(i);
+            equationArr.pop(i);
+            correct.pop(i);
+            wrong.pop(i);
             }
         }
+
+        console.log(answerArr);
         if (practicemsg.length > 0) {
             practicemsg = "";
         }
         for (let i = 0; i < 10; i++) {
             practicemsg += initPractice();
         }
+
         $("#question").html(practicemsg).css({
             'width': '',
             'font-size': '',
             'line-height': '',
             'text-align': '',
             'justify-content': '',
-            'align-items': ''
+            'align-items': '',
+            'color': ''
         });
         $('input[type=text]').val("");
     });
@@ -566,11 +655,33 @@ $(function() {
         inputCopyArr = inputArr.map(x => x);     //copy of input Array to show what answer were input
     });
     $('#check').on('click', function compare2(){
-
-        $('#result').toggle();
+        if(practicemsg.length > 1){
+            console.log('yerrr  ' + practicemsg.length);
+        }
+       // $('#result').toggle();
         for(let index = 0; index < 10; index++){
                 console.log(equationArr[index]);
         }
+        
+        if (practicemsg.length > 0) {
+            practicemsg = "";
+        }
+        for (let i = 0; i < 10; i++) {
+            practicemsg += initPractice();
+        }
+
+
+        
+        console.log(inputArr);
+        $("#question").html(practicemsg).css({
+            'width': '',
+            'font-size': '',
+            'line-height': '',
+            'text-align': '',
+            'justify-content': '',
+            'align-items': ''
+        });
+        $('input[type=text]').val("");
         if(correctCounter > 0){
             correctCounter = 0;
         }
@@ -582,18 +693,33 @@ $(function() {
                 inputCopyArr.pop();
             }
         }    
-        
+         $('#question').html(msg).css({
+            'font-size': '2.3vw',
+            'text-align': 'center',
+            'width': '99%',
+            'line-height': '1.8',
+            'justify-content': 'center',
+            'align-items': 'center',
+            
+        }); 
         for(let index = 0; index < 10; index++){
             if(inputArr[index] == answerArr[index]){
                 correctCounter++;   
                 correct.push(equationArr[index]);
 
+                msg += equationArr[index]+  ' <br  />';
+                //console.log('correct arr ' + correct);
+                //$('#question').html(msg);
+
             } else{
-                wrong.push(equationArr[index] + ' your answer was [' + inputArr[index] + ']');
+                wrong.push(equationArr[index] + '  your answer was [' + inputArr[index] + ']');
+                msg += equationArr[index]+ '  your answer was [' + inputArr[index] + ']' + ' <br  />';
+                //console.log('wrong arr '  + wrong);
+                //$('#question').html(msg);
             }
         }
-        $('#answer').toggle();
-        $('#question').html(""); 
+       // $('#answer').toggle();
+       
        /*
         let letter = '';
         if((correctCounter/10)*100 == 100){
@@ -612,39 +738,83 @@ $(function() {
             letter = 'Keep Trying';
         }
         $('#question').html('<h1 class="done">' + (correctCounter/10)*100 + '%' + '<br />' + '<h2 class="saying">' + letter + '</h2>' +  '</h1>');
-   */
+   
         $('#question').html(msg).css({
-            'font-size': '50vw',
+            'font-size': '2vw',
             'text-align': 'center',
             'width': '99%',
             'line-height': '1.8',
             'justify-content': 'center',
-            'align-items': 'center'
+            'align-items': 'center',
+            
         });
+        */
+       $('#question').html(msg);
+       msg = "";
+
+    $('#result').toggle();
+    for(let index = 0; index < 10; index++){
+            console.log(equationArr[index]);
+    }
+    if(correctCounter > 0){
+        correctCounter = 0;
+    }
+    if(correct.length > 0 || wrong.length > 0){
+        for(let i = 0; i < 10; i++){
+            correct.pop();
+            wrong.pop();
+            equationArr.pop();
+            inputCopyArr.pop();
+        }
+    }    
+    
+    for(let index = 0; index < 10; index++){
+        if(inputArr[index] == answerArr[index]){
+            correctCounter++;   
+            correct.push(equationArr[index]);
+
+        } else{
+            wrong.push(equationArr[index] + ' your answer was [' + inputArr[index] + ']');
+        }
+    }
+    $('#answer').toggle();
+    
+    if($('.check').is(":visible")){
+        $('.check').hide();
+    } 
     });
     $('#wrong').on('click', function(){
+
+        console.log('in wrong first time  ' +msg);
         while(j < wrong.length){
             msg += wrong[j] + "<br  />";
             j++;
         } 
         $('#question').html(msg).css({
-            'font-size': '2.5vw',
+            'font-size': '2.3vw',
             'text-align': 'center',
             'width': '99%',
             'line-height': '1.8',
         });
+        
+        console.log('in wrong twice ' + msg);
+        if($('.check').is(":visible")){
+            $('.check').hide();
+        } 
         if (j > 0) {
             j = 0;
             msg = "";
         }
     });
     $('#correct').on('click', function(){
+        console.log(msg);
         while(j < correct.length){
             msg += correct[j] + "<br  />";
             j++;
         } 
+        console.log('msg twice ' + msg);
         $('#question').html(msg).css({
-            'font-size': '2.5vw',
+            'font-size': '2.3vw',
             'text-align': 'center',
             'width': '99%',
             'line-height': '1.8',
