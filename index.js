@@ -39,18 +39,15 @@ $(function() {
         let $leftRight;
         $($leftRight).text('');
         let arrowClick = $(this).attr("value"); 
-        console.log(j + ' j');
         switch (arrowClick) {
             case 'less':
                 table--;
-                console.log(table);
                 $leftRight = $('.before');
                 $('.after').empty().append(table);
                 math2('+', table, j);
                 break;
             case 'more':
                 table++;
-                console.log(table);
                 $leftRight = $('.after');
                 $('.before').empty().append(table);
                 math2('+', table, j);
@@ -65,8 +62,6 @@ $(function() {
         e.preventDefault();
         let temp = 0;               //temp  value just in case min > max bounds
 
-        
-        console.log(`${leftTable} left ${rightTable} right`);
         //let ownText = $ownNum.val();
         l = $minText.val();
         leftTable[0] = $minText.val();
@@ -80,9 +75,6 @@ $(function() {
             r = 0;
             rightTable[0] = 0;
         }
-        console.log(`${l} left ${r} right`);
-
-        console.log(`${leftTable} left ${rightTable} right`);
         $tens.css({
             'background-color': "",
             'color':  ""
@@ -148,7 +140,7 @@ $(function() {
         leftTable[0] = ten;
         l = leftTable[0];
         r = rightTable[0];
-        console.log('lColor ' + lColor);
+        
         if(lColor[0] == $(this).html()){
             lColor.splice(1,1);
         } else {
@@ -174,15 +166,12 @@ $(function() {
             }
         }
 
-        console.log('lColor after logic ' + lColor);
-
         $($ones).css({
             'background-color': '',
             'color': ''
         });
         let ind = $('.num').index(this);        //finding index so i can see if 1 or the 10,20,30... is clicked
 
-        console.log(`${leftTable} left ${rightTable} right`);
         $ones.on('click', function(){
             let oneClicked = $(this).text();
             $(this).css({
@@ -190,7 +179,6 @@ $(function() {
                 'color':  invert
             });  
 
-            console.log('lColor in ones ' + lColor);
             l = oneClicked;
             r = rightTable[0];
             if(leftTable.length > 0){
@@ -217,7 +205,6 @@ $(function() {
                 'background-color': '',
                 'color': ''
             });
-            console.log(`${l} left ${r} right`);
         }).each(function() {
             let t = ++table;
             $(this).empty().text(t);
@@ -313,7 +300,7 @@ $(function() {
         divide: function (left, right) {
             let result = NaN;
             let remainder = NaN;
-            console.log('left ' + left + ' right '  + right);
+            
             if(!isNaN(left) && !isNaN(right)){
                 if((left / right) < 10){
                     if(left % right === 0){
@@ -388,11 +375,6 @@ $(function() {
             operator = operatorArr[operatorRand];
         }
         
-
-        console.log(`${l} left ${r} right`);
-
-        console.log(`${leftTable} left ${rightTable} right`);
-
        switch(operator){
            case 'random':
                while(i < 11){
@@ -569,7 +551,6 @@ $(function() {
             i++;
         }
         $("#question").html(practicemsg);
-        console.log(answerArr);
         if (i == 11) {
             i = 1;
             practicemsg = "";
@@ -590,7 +571,6 @@ $(function() {
             i++;
         }
         $("#question").html(practicemsg);
-        console.log(answerArr);
         if (i == 11) {
             i = 1;
             practicemsg = "";
@@ -617,8 +597,6 @@ $(function() {
             wrong.pop(i);
             }
         }
-
-        console.log(answerArr);
         if (practicemsg.length > 0) {
             practicemsg = "";
         }
@@ -655,13 +633,8 @@ $(function() {
         inputCopyArr = inputArr.map(x => x);     //copy of input Array to show what answer were input
     });
     $('#check').on('click', function compare2(){
-        if(practicemsg.length > 1){
-            console.log('yerrr  ' + practicemsg.length);
-        }
+        
        // $('#result').toggle();
-        for(let index = 0; index < 10; index++){
-                console.log(equationArr[index]);
-        }
         
         if (practicemsg.length > 0) {
             practicemsg = "";
@@ -669,10 +642,7 @@ $(function() {
         for (let i = 0; i < 10; i++) {
             practicemsg += initPractice();
         }
-
-
         
-        console.log(inputArr);
         $("#question").html(practicemsg).css({
             'width': '',
             'font-size': '',
@@ -706,19 +676,13 @@ $(function() {
             if(inputArr[index] == answerArr[index]){
                 correctCounter++;   
                 correct.push(equationArr[index]);
-
                 msg += equationArr[index]+  ' <br  />';
-                //console.log('correct arr ' + correct);
-                //$('#question').html(msg);
 
             } else{
                 wrong.push(equationArr[index] + '  your answer was [' + inputArr[index] + ']');
                 msg += equationArr[index]+ '  your answer was [' + inputArr[index] + ']' + ' <br  />';
-                //console.log('wrong arr '  + wrong);
-                //$('#question').html(msg);
             }
         }
-       // $('#answer').toggle();
        
        /*
         let letter = '';
@@ -739,23 +703,13 @@ $(function() {
         }
         $('#question').html('<h1 class="done">' + (correctCounter/10)*100 + '%' + '<br />' + '<h2 class="saying">' + letter + '</h2>' +  '</h1>');
    
-        $('#question').html(msg).css({
-            'font-size': '2vw',
-            'text-align': 'center',
-            'width': '99%',
-            'line-height': '1.8',
-            'justify-content': 'center',
-            'align-items': 'center',
-            
-        });
+       
         */
        $('#question').html(msg);
        msg = "";
 
     $('#result').toggle();
-    for(let index = 0; index < 10; index++){
-            console.log(equationArr[index]);
-    }
+    
     if(correctCounter > 0){
         correctCounter = 0;
     }
@@ -784,8 +738,6 @@ $(function() {
     } 
     });
     $('#wrong').on('click', function(){
-
-        console.log('in wrong first time  ' +msg);
         while(j < wrong.length){
             msg += wrong[j] + "<br  />";
             j++;
@@ -796,8 +748,6 @@ $(function() {
             'width': '99%',
             'line-height': '1.8',
         });
-        
-        console.log('in wrong twice ' + msg);
         if($('.check').is(":visible")){
             $('.check').hide();
         } 
@@ -807,12 +757,10 @@ $(function() {
         }
     });
     $('#correct').on('click', function(){
-        console.log(msg);
         while(j < correct.length){
             msg += correct[j] + "<br  />";
             j++;
         } 
-        console.log('msg twice ' + msg);
         $('#question').html(msg).css({
             'font-size': '2.3vw',
             'text-align': 'center',
